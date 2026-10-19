@@ -1,0 +1,49 @@
+{
+  "name": "taverna-vtt",
+  "version": "1.9.0",
+  "description": "Таверна — виртуальный стол для настольных ролевых игр с поддержкой листов персонажей Roll20",
+  "private": true,
+  "license": "AGPL-3.0-only",
+  "type": "module",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "dev": "node --watch server/index.js",
+    "dev:client": "vite",
+    "build": "vite build",
+    "build:exe": "node scripts/build-exe.mjs",
+    "start": "node server/index.js",
+    "test": "node --test tests/*.test.mjs",
+    "cli": "node server/cli.js",
+    "fetch-sheets": "node scripts/fetch-sheets.mjs"
+  },
+  "dependencies": {
+    "compression": "^1.8.1",
+    "express": "^5.1.0",
+    "multer": "^2.0.2",
+    "socket.io": "^4.8.1"
+  },
+  "devDependencies": {
+    "@fontsource/alegreya": "^5.3.0",
+    "@fontsource/alegreya-sans": "^5.3.0",
+    "@fontsource/cormorant-unicase": "^5.3.0",
+    "@fontsource/ibm-plex-mono": "^5.3.0",
+    "@fontsource/ibm-plex-sans": "^5.3.0",
+    "@fontsource/tektur": "^5.3.0",
+    "@preact/preset-vite": "^2.10.2",
+    "cannon-es": "^0.20.0",
+    "dompurify": "^3.2.6",
+    "esbuild": "^0.25.12",
+    "mediabunny": "1.61.1",
+    "playwright-core": "^1.55.0",
+    "postject": "^1.0.0-alpha.6",
+    "preact": "^10.27.1",
+    "qrcode-generator": "2.0.4",
+    "resedit": "^3.1.0",
+    "socket.io-client": "^4.8.1",
+    "three": "^0.170.0",
+    "underscore": "^1.13.7",
+    "vite": "^7.1.5"
+  }
+}

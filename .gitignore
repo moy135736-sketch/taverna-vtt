@@ -1,0 +1,17 @@
+# зависимости и сборки
+node_modules/
+dist/
+build/
+release/
+
+# данные и настройки запуска
+data/
+backups/
+taverna-data/
+.env
+
+# временное
+tests/e2e/tmp/
+*.log
+.DS_Store
+Thumbs.db

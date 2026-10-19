@@ -1,0 +1,14 @@
+node_modules
+dist
+data
+backups
+.env
+.git
+tests/e2e/shots
+*.log
+.DS_Store
+build
+release
+taverna-data
+tests
+desktop/taverna.ico

@@ -1,0 +1,872 @@
+/* ===================================================================================
+   Оформление «Фэнтези» — летопись при свечах: ночная лазурь, золотое тиснение,
+   чат-пергамент с киноварью. Живое: искры над краями карты, мерцание свечи у герба,
+   окна открываются с колдовской вспышкой, записи в летописи проявляются чернилами.
+   Включается атрибутом data-theme="fantasy" на <html> (см. themes.js).
+   =================================================================================== */
+
+html[data-theme='fantasy'] {
+  --oak-950: #0a0d17;
+  --oak-900: #0e1220;
+  --oak-850: #131828;
+  --oak-800: #171d31;
+  --oak-700: #20283f;
+  --oak-600: #2b3553;
+  --oak-500: #3b4769;
+  --oak-400: #5a668c;
+  --bone: #efe6d2;
+  --bone-dim: #bdb4a2;
+  --bone-faint: #878070;
+  --brass: #d4ae5a;
+  --brass-hi: #f1d488;
+  --brass-lo: #8c6a2b;
+  --garnet: #b5322c;
+  --garnet-hi: #d2483f;
+  --azure: #7fc6ff;
+  --moss: #7fae7a;
+  --focus: #9bd6ff;
+  --on-accent: #1d1406;
+  --fx-gilt-line: rgba(212, 174, 90, 0.42);
+  --fx-vellum: #f2e7cd;
+  --fx-ink: #2b1e12;
+  --fx-rubric: #9e2b22;
+  --fx-lapis: #1c2850;
+  --fx-arcane: #8fd0ff;
+  --font-display: 'Cormorant Unicase', 'Alegreya', Georgia, serif;
+  --r-sm: 3px;
+  --r-md: 5px;
+  --shadow-pop: 0 0 0 1px rgba(0, 0, 0, 0.55), 0 18px 46px rgba(0, 0, 0, 0.6);
+}
+html[data-theme='fantasy'] ::selection {
+  background: rgba(212, 174, 90, 0.35);
+}
+html[data-theme='fantasy'] * {
+  scrollbar-color: #3b4769 transparent;
+}
+
+/* ---------- верхняя полоса: двойная золотая линейка, герб со свечой ---------- */
+html[data-theme='fantasy'] .g-top {
+  background: linear-gradient(180deg, #161c30 0%, #10152a 100%);
+  border-bottom: 1px solid #5c4a24;
+  box-shadow: 0 1px 0 #0a0d17, 0 2px 0 rgba(212, 174, 90, 0.22);
+  position: relative;
+  z-index: 2;
+}
+/* по золотой линейке изредка пробегает отблеск свечи */
+html[data-theme='fantasy'] .g-top::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 240px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255, 240, 190, 0.95), transparent);
+  pointer-events: none;
+  opacity: 0;
+}
+/* отблеск и свеча — тоже ступеньками, около 15 смен в секунду, а не на каждом кадре экрана */
+html[data-theme='fantasy']:not(.theme-still) .g-top::after {
+  animation: fx-gleam 12s steps(54, end) 4s infinite;
+}
+@keyframes fx-gleam {
+  0% {
+    transform: translateX(-260px);
+    opacity: 0;
+  }
+  4% {
+    opacity: 1;
+  }
+  30% {
+    transform: translateX(100vw);
+    opacity: 1;
+  }
+  31%,
+  100% {
+    transform: translateX(100vw);
+    opacity: 0;
+  }
+}
+html[data-theme='fantasy'] .g-back {
+  position: relative;
+  color: var(--brass-hi);
+}
+html[data-theme='fantasy'] .g-back:hover {
+  background: rgba(212, 174, 90, 0.08);
+}
+html[data-theme='fantasy'] .g-back svg {
+  position: relative;
+  filter: drop-shadow(0 0 3px rgba(255, 200, 100, 0.45));
+}
+/* огонёк свечи за гербом */
+html[data-theme='fantasy'] .g-back::before {
+  content: '';
+  position: absolute;
+  left: -8px;
+  top: 50%;
+  width: 46px;
+  height: 46px;
+  margin-top: -23px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 190, 90, 0.38) 0%, rgba(255, 170, 70, 0.12) 40%, transparent 68%);
+  pointer-events: none;
+}
+html[data-theme='fantasy']:not(.theme-still) .g-back::before {
+  animation: fx-candle 3.4s steps(1, end) infinite, fx-candle-soft 3.4s steps(26, end) infinite;
+}
+html[data-theme='fantasy'] .g-title {
+  font: 700 21px/1.1 var(--font-display);
+  letter-spacing: 0.02em;
+  padding-bottom: 2px;
+  background: linear-gradient(180deg, #fbeab5 0%, #e3c072 52%, #ab8433 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ---------- инструменты ---------- */
+html[data-theme='fantasy'] .g-tools {
+  background: linear-gradient(90deg, #0f1324, #121729);
+  border-right: 1px solid #2b3553;
+  box-shadow: inset -1px 0 0 rgba(212, 174, 90, 0.08);
+}
+html[data-theme='fantasy'] .tool-btn:hover {
+  color: var(--brass-hi);
+  background: rgba(127, 198, 255, 0.07);
+}
+html[data-theme='fantasy'] .tool-btn.active {
+  background: radial-gradient(circle at 50% 30%, #f6dc95 0%, #d4ae5a 55%, #9c7832 100%);
+  color: var(--on-accent);
+  box-shadow: 0 0 0 1px #8c6a2b, 0 0 12px rgba(241, 212, 136, 0.35);
+}
+html[data-theme='fantasy'] .layer-btn.active {
+  background: rgba(127, 198, 255, 0.12);
+  color: var(--fx-arcane);
+  box-shadow: inset 0 0 0 1px rgba(143, 208, 255, 0.55);
+}
+
+/* ---------- заголовки: унициал, золото, ромб ---------- */
+html[data-theme='fantasy'] .j-h,
+html[data-theme='fantasy'] .sub-h {
+  font: 600 17px/1.2 var(--font-display);
+  color: #e8c97c;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+html[data-theme='fantasy'] .j-h::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  flex: none;
+  background: var(--brass);
+  transform: rotate(45deg);
+  box-shadow: 0 0 6px rgba(241, 212, 136, 0.55);
+}
+html[data-theme='fantasy'] .j-h::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(212, 174, 90, 0.5), transparent);
+}
+html[data-theme='fantasy'] .modal-head h2,
+html[data-theme='fantasy'] .gm-start-head h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--brass-hi);
+  letter-spacing: 0.01em;
+}
+
+/* ---------- кнопки, поля, вкладки ---------- */
+html[data-theme='fantasy'] .btn {
+  background: #1b2238;
+  border-color: #3b4769;
+}
+html[data-theme='fantasy'] .btn:hover:not(:disabled) {
+  background: #232c47;
+  border-color: #8c6a2b;
+}
+html[data-theme='fantasy'] .btn-primary {
+  color: var(--on-accent);
+  border-color: #8c6a2b;
+  background-color: #d4ae5a;
+  background-image: linear-gradient(105deg, transparent 38%, rgba(255, 250, 225, 0.55) 50%, transparent 62%), linear-gradient(180deg, #f3d98f 0%, #d4ae5a 52%, #b18a3c 100%);
+  background-size: 260% 100%, 100% 100%;
+  background-position: 130% 0, 0 0;
+  background-repeat: no-repeat;
+  box-shadow: inset 0 1px 0 rgba(255, 245, 210, 0.55);
+}
+html[data-theme='fantasy'] .btn-primary:hover:not(:disabled) {
+  background-color: #e0bd6a;
+  border-color: #a8822f;
+  background-position: -30% 0, 0 0;
+  transition: background-position 0.7s ease;
+}
+html[data-theme='fantasy'] .btn-danger {
+  border-color: #8f2a25;
+  color: #f0b3ad;
+}
+html[data-theme='fantasy'] .icon-btn.active {
+  background: linear-gradient(180deg, #f3d98f, #c79f4d);
+}
+html[data-theme='fantasy'] .input,
+html[data-theme='fantasy'] select.input,
+html[data-theme='fantasy'] textarea.input {
+  background: #0c101d;
+  border-color: #2e3959;
+}
+html[data-theme='fantasy'] .input:focus {
+  border-color: var(--fx-arcane);
+  box-shadow: 0 0 0 2px rgba(143, 208, 255, 0.18), 0 0 10px rgba(143, 208, 255, 0.15);
+}
+html[data-theme='fantasy'] .tab.active {
+  color: var(--brass-hi);
+  border-bottom-color: var(--brass);
+}
+html[data-theme='fantasy'] .side-tabs .tab.active::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -4px;
+  width: 7px;
+  height: 7px;
+  margin-left: -3.5px;
+  background: var(--brass);
+  transform: rotate(45deg);
+  box-shadow: 0 0 6px rgba(241, 212, 136, 0.6);
+}
+html[data-theme='fantasy'] .toggle input:checked + .toggle-track {
+  background: linear-gradient(180deg, #a8822f, #7a5c23);
+  border-color: var(--brass);
+}
+html[data-theme='fantasy'] .toggle input:checked + .toggle-track .toggle-thumb {
+  background: #fbe9b4;
+  box-shadow: 0 0 6px rgba(251, 233, 180, 0.7);
+}
+html[data-theme='fantasy'] .scene-tab.active {
+  border-color: var(--brass);
+  color: var(--brass-hi);
+  background: rgba(212, 174, 90, 0.1);
+}
+html[data-theme='fantasy'] a,
+html[data-theme='fantasy'] .link-btn,
+html[data-theme='fantasy'] .linklike {
+  color: #f0cf7e;
+}
+
+/* ---------- боковая панель ---------- */
+html[data-theme='fantasy'] .sidebar {
+  background: linear-gradient(180deg, #131828 0%, #11162a 100%);
+  border-left: 1px solid #2b3553;
+  box-shadow: inset 1px 0 0 rgba(212, 174, 90, 0.08);
+}
+html[data-theme='fantasy'] .side-tabs-row {
+  background: #10152a;
+  border-bottom: 1px solid #2b3553;
+}
+
+/* ---------- окна: золотая рамка с уголками; открываются с колдовской вспышкой ---------- */
+html[data-theme='fantasy'] .fwin,
+html[data-theme='fantasy'] .modal {
+  background: #161c2f;
+  border: 1px solid #6a5629;
+  box-shadow: 0 0 0 1px #07090f, 0 20px 50px rgba(0, 0, 0, 0.62);
+}
+html[data-theme='fantasy'] .fwin-head,
+html[data-theme='fantasy'] .modal-head {
+  background: linear-gradient(180deg, #1f2843 0%, #171e33 100%);
+  border-bottom: 1px solid #4f4021;
+}
+html[data-theme='fantasy'] .fwin-title {
+  font: 700 18px var(--font-display);
+  color: var(--brass-hi);
+  letter-spacing: 0.01em;
+}
+html[data-theme='fantasy'] .fwin::after,
+html[data-theme='fantasy'] .modal {
+  --fx-corner-tl: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 18 18'%3E%3Cg fill='none' stroke='%23d4ae5a'%3E%3Cpath d='M.5 17.5V6.5Q.5.5 6.5.5h11'/%3E%3Cpath d='M3.5 13V8Q3.5 3.5 8 3.5h5' stroke-opacity='.55'/%3E%3C/g%3E%3Cpath d='M3.5 1.2 5.8 3.5 3.5 5.8 1.2 3.5z' fill='%23f1d488'/%3E%3C/svg%3E");
+  --fx-corner-tr: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 18 18'%3E%3Cg transform='matrix(-1 0 0 1 18 0)'%3E%3Cg fill='none' stroke='%23d4ae5a'%3E%3Cpath d='M.5 17.5V6.5Q.5.5 6.5.5h11'/%3E%3Cpath d='M3.5 13V8Q3.5 3.5 8 3.5h5' stroke-opacity='.55'/%3E%3C/g%3E%3Cpath d='M3.5 1.2 5.8 3.5 3.5 5.8 1.2 3.5z' fill='%23f1d488'/%3E%3C/g%3E%3C/svg%3E");
+  --fx-corner-bl: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 18 18'%3E%3Cg transform='matrix(1 0 0 -1 0 18)'%3E%3Cg fill='none' stroke='%23d4ae5a'%3E%3Cpath d='M.5 17.5V6.5Q.5.5 6.5.5h11'/%3E%3Cpath d='M3.5 13V8Q3.5 3.5 8 3.5h5' stroke-opacity='.55'/%3E%3C/g%3E%3Cpath d='M3.5 1.2 5.8 3.5 3.5 5.8 1.2 3.5z' fill='%23f1d488'/%3E%3C/g%3E%3C/svg%3E");
+}
+/* внутренняя золотая рамка поверх окна: тонкая линия и три уголка (у четвёртого — ручка размера) */
+html[data-theme='fantasy'] .fwin::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  z-index: 3;
+  pointer-events: none;
+  border: 1px solid rgba(212, 174, 90, 0.2);
+  border-radius: 2px;
+  background: var(--fx-corner-tl) left top / 18px no-repeat, var(--fx-corner-tr) right top / 18px no-repeat, var(--fx-corner-bl) left bottom / 18px no-repeat;
+}
+html[data-theme='fantasy'] .fwin-head {
+  padding-left: 18px;
+}
+html[data-theme='fantasy'] .fwin-head .icon-btn:last-child {
+  margin-right: 8px;
+}
+html[data-theme='fantasy'] .fwin-resize {
+  right: 3px;
+  bottom: 3px;
+  z-index: 4;
+  background: linear-gradient(135deg, transparent 50%, var(--brass-lo) 50%, var(--brass-lo) 58%, transparent 58%, transparent 70%, var(--brass) 70%, var(--brass) 78%, transparent 78%);
+}
+html[data-theme='fantasy'] .modal {
+  position: relative;
+}
+html[data-theme='fantasy'] .modal::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  pointer-events: none;
+  border: 1px solid rgba(212, 174, 90, 0.2);
+  border-radius: 2px;
+  background:
+    var(--fx-corner-tl) left top / 18px no-repeat,
+    var(--fx-corner-tr) right top / 18px no-repeat,
+    var(--fx-corner-bl) left bottom / 18px no-repeat;
+}
+html[data-theme='fantasy']:not(.theme-still) .fwin {
+  animation: fx-open 0.55s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+/* колдовская вспышка по внутреннему краю окна и диалога: гаснет сама (только прозрачность — дёшево);
+   диалоги при этом не сдвигаются — на вопросы листа отвечают сразу */
+html[data-theme='fantasy'] .fwin::before,
+html[data-theme='fantasy'] .modal::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px rgba(143, 208, 255, 0.9), inset 0 0 28px rgba(143, 208, 255, 0.38);
+  opacity: 0;
+}
+html[data-theme='fantasy']:not(.theme-still) .fwin::before,
+html[data-theme='fantasy']:not(.theme-still) .modal::before {
+  animation: fx-glow-out 0.9s ease-out;
+}
+html[data-theme='fantasy']:not(.theme-still) .fwin::after,
+html[data-theme='fantasy']:not(.theme-still) .modal::after {
+  animation: fx-frame 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+@keyframes fx-open {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.985);
+  }
+  35% {
+    opacity: 1;
+  }
+  100% {
+    transform: none;
+  }
+}
+@keyframes fx-glow-out {
+  0%,
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes fx-frame {
+  0% {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  45% {
+    opacity: 0;
+  }
+}
+
+/* всплывающие меню и уведомления */
+html[data-theme='fantasy'] .ctx-menu,
+html[data-theme='fantasy'] .ctx-sub {
+  background: #151b2e;
+  border: 1px solid #5c4a24;
+  box-shadow: 0 0 0 1px #07090f, 0 14px 36px rgba(0, 0, 0, 0.6);
+}
+html[data-theme='fantasy'] .ctx-item:hover:not(:disabled) {
+  background: linear-gradient(90deg, rgba(212, 174, 90, 0.18), rgba(212, 174, 90, 0.02));
+  color: #fbe9b4;
+}
+html[data-theme='fantasy'] .toast {
+  background: #151b2e;
+  border-color: #3b4769;
+  border-left-color: var(--brass);
+}
+html[data-theme='fantasy'] .toast-error {
+  border-left-color: var(--garnet-hi);
+}
+html[data-theme='fantasy'] .toast-ok {
+  border-left-color: var(--moss);
+}
+
+/* ---------- доска: ночь вокруг карты ---------- */
+html[data-theme='fantasy'] .board {
+  background: transparent;
+}
+html[data-theme='fantasy'] .page-bg {
+  box-shadow: 0 0 0 1px rgba(212, 174, 90, 0.25), 0 0 60px rgba(0, 0, 0, 0.75), 0 0 120px rgba(80, 110, 200, 0.12);
+}
+html[data-theme='fantasy'] .board-hud {
+  background: rgba(17, 22, 40, 0.9);
+  border-color: #3b4769;
+}
+html[data-theme='fantasy'] .gm-start {
+  background: rgba(19, 24, 40, 0.96);
+  border-color: #3b4769;
+  border-top: 2px solid var(--brass);
+}
+html[data-theme='fantasy'] .gm-start-mark {
+  border-color: #6a5629;
+}
+html[data-theme='fantasy'] .macro-bar {
+  background: #10152a;
+  border-top: 1px solid #2b3553;
+}
+html[data-theme='fantasy'] .mbtn {
+  background: #1b2238;
+  border-color: #3b4769;
+}
+html[data-theme='fantasy'] .mbtn:hover {
+  border-color: var(--brass);
+  color: var(--brass-hi);
+}
+html[data-theme='fantasy'] .tok-name {
+  background: rgba(13, 17, 31, 0.88);
+  color: #f6ecd6;
+  box-shadow: 0 0 0 1px rgba(212, 174, 90, 0.45);
+}
+
+/* Слой за доской: ночное небо, звёзды, туман и искры. Виден по краям карты. */
+.fx-ambient {
+  display: none;
+}
+html[data-theme='fantasy'] .fx-ambient {
+  display: block;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 65% 50% at 50% 42%, rgba(52, 70, 140, 0.32), transparent 72%),
+    radial-gradient(ellipse 80% 40% at 50% 112%, rgba(212, 150, 70, 0.14), transparent 70%),
+    linear-gradient(180deg, #0b0f1d 0%, #0a0d17 100%);
+}
+.fx-ambient .fx-stars {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1.2px 1.2px at 23px 41px, rgba(255, 240, 210, 0.75), transparent 100%),
+    radial-gradient(1px 1px at 117px 13px, rgba(255, 240, 210, 0.55), transparent 100%),
+    radial-gradient(1.5px 1.5px at 201px 151px, rgba(200, 225, 255, 0.7), transparent 100%),
+    radial-gradient(1px 1px at 61px 187px, rgba(255, 240, 210, 0.5), transparent 100%),
+    radial-gradient(1px 1px at 163px 93px, rgba(255, 240, 210, 0.45), transparent 100%),
+    radial-gradient(1.3px 1.3px at 251px 229px, rgba(255, 236, 190, 0.65), transparent 100%);
+  background-size: 271px 263px;
+  opacity: 0.8;
+}
+.fx-ambient .fx-stars.b {
+  background-size: 389px 347px;
+  background-position: 120px 60px;
+  opacity: 0.55;
+}
+.fx-ambient .fx-mist {
+  position: absolute;
+  left: 10%;
+  top: 15%;
+  width: 80%;
+  height: 70%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(110, 90, 200, 0.16), rgba(60, 110, 200, 0.07) 55%, transparent);
+}
+/* искра: светящаяся точка с ореолом; ореол нарисован в самом элементе, без box-shadow */
+.fx-ambient .fx-mote {
+  position: absolute;
+  bottom: -20px;
+  left: var(--x);
+  width: calc(var(--s) * 4);
+  height: calc(var(--s) * 4);
+  margin-left: calc(var(--s) * -2);
+  border-radius: 50%;
+  background: radial-gradient(circle, #fffbe6 0%, #ffe39a 9%, rgba(255, 200, 100, 0.55) 18%, rgba(255, 170, 70, 0.16) 38%, transparent 62%);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+.fx-ambient .fx-mote.cool {
+  background: radial-gradient(circle, #f6fdff 0%, #c4e8ff 9%, rgba(140, 200, 255, 0.5) 18%, rgba(120, 170, 255, 0.15) 38%, transparent 62%);
+}
+/* мерцающие звёзды — маленькие отдельные точки: перерисовывать весь слой неба не нужно */
+.fx-ambient .fx-star {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: 9px;
+  height: 9px;
+  margin: -4.5px 0 0 -4.5px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fffaf0 0%, rgba(255, 240, 210, 0.6) 22%, transparent 60%);
+  opacity: 0.35;
+}
+/* искры летят и звёзды мерцают из ThemeDecor.jsx (Web Animations, ступеньками 15 раз в секунду) */
+html[data-theme='fantasy']:not(.theme-still) .game.theme-boot .fx-ambient {
+  animation: fx-unveil 1.8s ease-out both;
+}
+html[data-theme='fantasy'].theme-still .fx-ambient .fx-mote {
+  display: none;
+}
+/* облегчённо (без видеокарты): искры не летят, звёзды не мерцают — это перерисовка всей доски каждый кадр */
+html[data-theme='fantasy'].theme-lite .fx-ambient .fx-mote {
+  display: none;
+}
+html[data-theme='fantasy'].theme-lite:not(.theme-still) .g-back::before {
+  animation: fx-candle 3.4s steps(1, end) infinite;
+}
+html[data-theme='fantasy'] .turn-ring {
+  stroke: #f1d488;
+  filter: drop-shadow(0 0 4px rgba(241, 212, 136, 0.85));
+}
+@keyframes fx-unveil {
+  from {
+    opacity: 0;
+    filter: brightness(2.2);
+  }
+  to {
+    opacity: 1;
+    filter: none;
+  }
+}
+@keyframes fx-candle {
+  0% {
+    opacity: 0.8;
+  }
+  9% {
+    opacity: 0.62;
+  }
+  14% {
+    opacity: 0.92;
+  }
+  22% {
+    opacity: 0.74;
+  }
+  37% {
+    opacity: 1;
+  }
+  46% {
+    opacity: 0.66;
+  }
+  58% {
+    opacity: 0.88;
+  }
+  71% {
+    opacity: 0.7;
+  }
+  84% {
+    opacity: 0.96;
+  }
+}
+@keyframes fx-candle-soft {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.12) translateY(-1px);
+  }
+}
+
+/* ---------- летопись (чат): пергамент, чернила, киноварь ---------- */
+html[data-theme='fantasy'] .textchatcontainer {
+  background:
+    radial-gradient(ellipse 120% 60% at 50% 0%, rgba(255, 252, 240, 0.55), transparent 70%),
+    radial-gradient(ellipse 140% 100% at 50% 50%, transparent 62%, rgba(140, 100, 40, 0.16) 100%),
+    var(--fx-vellum);
+  color: var(--fx-ink);
+  font-family: 'Alegreya', Georgia, serif;
+  font-size: 14px;
+  line-height: 19px;
+  box-shadow: inset 0 1px 0 rgba(140, 106, 43, 0.35);
+}
+html[data-theme='fantasy'] .textchatcontainer .message .by {
+  font: 700 15px/1 var(--font-display);
+  color: var(--fx-rubric);
+  border-bottom: 0;
+  letter-spacing: 0.01em;
+}
+html[data-theme='fantasy'] .textchatcontainer .message .by::before {
+  content: '';
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  margin: 0 5px 2px 0;
+  background: var(--pc, #9e2b22);
+  transform: rotate(45deg);
+  vertical-align: middle;
+}
+html[data-theme='fantasy'] .textchatcontainer .message .tstamp {
+  color: #9b8a68;
+  font-style: italic;
+}
+html[data-theme='fantasy'] .textchatcontainer .message .avatar img,
+html[data-theme='fantasy'] .textchatcontainer .message .avatar span {
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px #b8954a, 0 0 0 3px rgba(184, 149, 74, 0.25);
+  font-family: var(--font-display);
+}
+html[data-theme='fantasy'] .textchatcontainer .message.whisper {
+  background: rgba(86, 64, 140, 0.1);
+}
+html[data-theme='fantasy'] .textchatcontainer .message.whisper .by {
+  color: #4f3a86;
+}
+html[data-theme='fantasy'] .textchatcontainer .message.whisper .by::before {
+  display: none;
+}
+html[data-theme='fantasy'] .textchatcontainer .message.gmrollresult {
+  background: rgba(140, 106, 43, 0.12);
+}
+html[data-theme='fantasy'] .gm-only {
+  color: #7a5a1d;
+  font-style: italic;
+}
+html[data-theme='fantasy'] .textchatcontainer .message.emote {
+  color: #5a3f86;
+  font-weight: 500;
+}
+html[data-theme='fantasy'] .textchatcontainer .message.emote::before,
+html[data-theme='fantasy'] .textchatcontainer .message.emote::after {
+  content: '❦';
+  color: #b08a3c;
+  font-style: normal;
+  margin: 0 6px;
+}
+/* описание — абзац летописи с буквицей */
+html[data-theme='fantasy'] .textchatcontainer .message.desc {
+  color: var(--fx-ink);
+  font: italic 15px/1.55 'Alegreya', Georgia, serif;
+  background: linear-gradient(90deg, rgba(140, 106, 43, 0.1), transparent 80%);
+  border-left: 2px solid #b8954a;
+}
+html[data-theme='fantasy'] .textchatcontainer .message.desc::first-letter {
+  float: left;
+  font: 700 2.6em/0.85 var(--font-display);
+  font-style: normal;
+  color: var(--fx-rubric);
+  margin: 4px 6px 0 0;
+  padding: 2px 4px;
+  border: 1px solid #b8954a;
+  background: rgba(212, 174, 90, 0.18);
+}
+html[data-theme='fantasy'] .textchatcontainer .message.system {
+  color: #6f5f45;
+  background: transparent;
+  font-style: italic;
+  text-align: center;
+}
+html[data-theme='fantasy'] .textchatcontainer .message.system.error {
+  color: #8a221c;
+  background: rgba(181, 50, 44, 0.08);
+}
+html[data-theme='fantasy'] .textchatcontainer a {
+  color: #8a3b12;
+}
+html[data-theme='fantasy'] .textchatcontainer code {
+  background: rgba(140, 106, 43, 0.16);
+}
+html[data-theme='fantasy'] .textchatcontainer a.r20-btn {
+  background: linear-gradient(180deg, #24326a, #1a2550);
+  border-color: #8c6a2b;
+  color: #f6dfa0;
+  font-family: 'Alegreya Sans', sans-serif;
+}
+html[data-theme='fantasy'] .textchatcontainer a.r20-btn:hover {
+  background: linear-gradient(180deg, #2e3f82, #22306a);
+}
+html[data-theme='fantasy'] .textchatcontainer a.fx-apply-btn {
+  border-color: #8c6a2b;
+  background: linear-gradient(180deg, #fbf3df, #f1e2bd);
+  color: #24326a;
+  font-family: 'Alegreya Sans', sans-serif;
+  font-size: 13px;
+}
+html[data-theme='fantasy'] .textchatcontainer a.fx-apply-btn:hover {
+  background: linear-gradient(180deg, #24326a, #1a2550);
+  color: #f6dfa0;
+}
+html[data-theme='fantasy'] .chat-empty {
+  color: #8a7a5c;
+  font-family: 'Alegreya', Georgia, serif;
+}
+html[data-theme='fantasy'] .load-earlier {
+  background: #fbf3df;
+  border-color: #c9b07a;
+  color: #6a5432;
+}
+/* броски: золотая фольга */
+html[data-theme='fantasy'] .inlinerollresult {
+  background: linear-gradient(180deg, #fbeebf 0%, #ecd08a 100%);
+  border: 1px solid #a8822f;
+  border-radius: 3px;
+  color: #2b1e12;
+  font-variant-numeric: lining-nums;
+  padding: 0 4px;
+}
+html[data-theme='fantasy'] .inlinerollresult.fullcrit {
+  border-color: #3f8a3a;
+  box-shadow: 0 0 0 1px #3f8a3a, 0 0 8px rgba(110, 200, 90, 0.55);
+}
+html[data-theme='fantasy'] .inlinerollresult.fullfail {
+  border-color: #a12a22;
+  box-shadow: 0 0 0 1px #a12a22, 0 0 8px rgba(200, 60, 50, 0.45);
+}
+html[data-theme='fantasy'] .message .rolled {
+  font: 700 23px/1.15 'Alegreya', Georgia, serif;
+  font-variant-numeric: lining-nums;
+  background: radial-gradient(circle at 50% 30%, #fff4cf 0%, #f0d48c 60%, #d8b15c 100%);
+  border: 1px solid #8c6a2b;
+  border-radius: 3px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 1px 2px rgba(80, 50, 10, 0.25);
+  color: #2b1e12;
+}
+html[data-theme='fantasy'] .message.rollresult .formula,
+html[data-theme='fantasy'] .message.gmrollresult .formula,
+html[data-theme='fantasy'] .message .rr-math,
+html[data-theme='fantasy'] .message .roll-comment {
+  color: #6f5f45;
+}
+html[data-theme='fantasy'] .message .formattedformula {
+  background: rgba(255, 252, 240, 0.65);
+  border-color: #d2bd8e;
+}
+html[data-theme='fantasy'] .message .diceroll {
+  background: #3a2a1a;
+}
+/* шаблон по умолчанию — лист с лазурной шапкой */
+html[data-theme='fantasy'] .sheet-rolltemplate-default table {
+  background: #fbf5e4;
+  border: 1px solid #b8954a;
+  box-shadow: 0 1px 3px rgba(80, 50, 10, 0.18);
+}
+html[data-theme='fantasy'] .sheet-rolltemplate-default caption {
+  background: linear-gradient(180deg, #24326a 0%, #18234d 100%);
+  color: #f6dfa0;
+  font: 700 17px/1.15 var(--font-display);
+  border-radius: 3px 3px 0 0;
+  border: 1px solid #8c6a2b;
+  border-bottom: 0;
+  padding: 5px 8px 4px;
+}
+html[data-theme='fantasy'] .sheet-rolltemplate-default tr:nth-child(even) {
+  background-color: rgba(212, 174, 90, 0.13);
+}
+html[data-theme='fantasy'] .sheet-rolltemplate-default td:first-child {
+  color: #5a3f20;
+}
+html[data-theme='fantasy'] .roll-tip {
+  background: #131828;
+  border-color: #6a5629;
+  color: var(--bone);
+}
+/* поле ввода летописи */
+html[data-theme='fantasy'] .chat-input {
+  background: #121729;
+  border-top: 1px solid #5c4a24;
+}
+html[data-theme='fantasy'] .die-btn {
+  background: #1b2238;
+  border-color: #3b4769;
+  border-radius: 50% 50% 3px 3px / 40% 40% 3px 3px;
+}
+html[data-theme='fantasy'] .die-btn:hover {
+  border-color: var(--brass);
+  color: var(--brass-hi);
+}
+
+/* новая запись проявляется чернилами слева направо */
+html[data-theme='fantasy']:not(.theme-still) .msg-wrap.fresh > .message {
+  animation: fx-ink 0.75s cubic-bezier(0.3, 0.6, 0.2, 1) both;
+}
+html[data-theme='fantasy']:not(.theme-still) .msg-wrap.fresh .inlinerollresult.fullcrit,
+html[data-theme='fantasy']:not(.theme-still) .msg-wrap.fresh .rolled.fullcrit {
+  animation: fx-crit 1.1s ease-out 0.5s 2;
+}
+@keyframes fx-ink {
+  from {
+    clip-path: inset(0 100% 0 0);
+    opacity: 0.2;
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+}
+@keyframes fx-crit {
+  0% {
+    box-shadow: 0 0 0 1px #3f8a3a, 0 0 0 rgba(255, 220, 120, 0);
+  }
+  40% {
+    box-shadow: 0 0 0 1px #d4ae5a, 0 0 18px rgba(255, 220, 120, 0.95);
+  }
+  100% {
+    box-shadow: 0 0 0 1px #3f8a3a, 0 0 8px rgba(110, 200, 90, 0.55);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-theme='fantasy'] *,
+  html[data-theme='fantasy'] *::before,
+  html[data-theme='fantasy'] *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  html[data-theme='fantasy'] .fx-ambient .fx-mote {
+    display: none;
+  }
+}
+html[data-theme='fantasy'] .textchatcontainer .react-chip {
+  border-color: #c9b07a;
+  background: #fbf3df;
+  color: #3a2a12;
+}
+html[data-theme='fantasy'] .textchatcontainer .react-chip.on {
+  border-color: #8c6a2b;
+  background: #f1e2bd;
+}
+html[data-theme='fantasy'] .textchatcontainer .message .react-add {
+  background: #fbf3df;
+  color: #8a6d33;
+  box-shadow: 0 0 0 1px #c9b07a;
+}
+/* итоги вечера — лист летописи */
+html[data-theme='fantasy'] .sum-card {
+  border-color: rgba(140, 106, 43, 0.45);
+  border-radius: 3px;
+  background: rgba(255, 250, 235, 0.55);
+  color: var(--fx-ink);
+}
+html[data-theme='fantasy'] .sum-title {
+  font: 700 19px/1.15 var(--font-display);
+  color: var(--fx-rubric);
+}
+html[data-theme='fantasy'] .sum-award-title {
+  color: var(--fx-rubric);
+}
+html[data-theme='fantasy'] .sum-stat b {
+  font-family: var(--font-display);
+  color: var(--fx-lapis);
+}
+html[data-theme='fantasy'] .trap-card {
+  border-color: rgba(158, 43, 34, 0.35);
+  border-left-color: var(--fx-rubric);
+  border-radius: 3px;
+  background: rgba(255, 238, 228, 0.6);
+  color: var(--fx-ink);
+}
+html[data-theme='fantasy'] .trap-card-h {
+  color: var(--fx-rubric);
+}
+html[data-theme='fantasy'] .trap-card-h b {
+  font-family: var(--font-display);
+}

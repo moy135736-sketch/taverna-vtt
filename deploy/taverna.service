@@ -1,0 +1,26 @@
+# Запуск без Docker через systemd.
+#   sudo useradd -r -m -d /opt/taverna taverna
+#   (скопируйте проект в /opt/taverna, затем от пользователя taverna: npm ci && npm run build && npm prune --omit=dev)
+#   sudo cp deploy/taverna.service /etc/systemd/system/ && sudo systemctl enable --now taverna
+# Перед сервисом нужен обратный прокси с HTTPS (Caddy или nginx, см. README).
+[Unit]
+Description=Taverna VTT
+After=network.target
+
+[Service]
+Type=simple
+User=taverna
+WorkingDirectory=/opt/taverna
+Environment=NODE_ENV=production
+Environment=PORT=3000
+Environment=HOST=127.0.0.1
+Environment=DATA_DIR=/opt/taverna/data
+ExecStart=/usr/bin/node server/index.js
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+ProtectSystem=full
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

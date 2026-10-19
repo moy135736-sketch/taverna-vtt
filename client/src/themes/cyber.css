@@ -1,0 +1,705 @@
+/* ===================================================================================
+   Оформление «Киберпанк» — тактический терминал в духе COMP/CON:
+   графит, багровые рельсы, срезанные углы, данные моноширинным шрифтом.
+   Включается атрибутом data-theme="cyber" на <html> (см. themes.js).
+   =================================================================================== */
+
+html[data-theme='cyber'] {
+  --oak-950: #0a0d11;
+  --oak-900: #0e1217;
+  --oak-850: #12171d;
+  --oak-800: #171e26;
+  --oak-700: #1f2832;
+  --oak-600: #2a3541;
+  --oak-500: #3a4754;
+  --oak-400: #576474;
+  --bone: #dce4eb;
+  --bone-dim: #98a6b3;
+  --bone-faint: #637180;
+  --brass: #d3263a;
+  --brass-hi: #f03c51;
+  --brass-lo: #7d1724;
+  --garnet: #d3263a;
+  --garnet-hi: #f03c51;
+  --azure: #3fbfd1;
+  --moss: #5fbf8a;
+  --focus: #3fbfd1;
+  --on-accent: #ffffff;
+  --cy-data: #49cddd;
+  --cy-amber: #f2b13a;
+  --cy-cut: 7px;
+  --font-serif: 'Tektur', 'IBM Plex Sans', 'Segoe UI', sans-serif;
+  --font-sans: 'IBM Plex Sans', 'Segoe UI', Arial, sans-serif;
+  --font-mono: 'IBM Plex Mono', Consolas, monospace;
+  --r-sm: 0px;
+  --r-md: 0px;
+  --shadow-pop: 0 0 0 1px #2a3541, 0 16px 40px rgba(0, 0, 0, 0.65);
+}
+html[data-theme='cyber'] body {
+  font-size: 14.5px;
+}
+html[data-theme='cyber'] ::selection {
+  background: rgba(63, 191, 209, 0.35);
+}
+html[data-theme='cyber'] a,
+html[data-theme='cyber'] .link-btn {
+  color: var(--cy-data);
+}
+
+/* срезанный угол — главный знак этого оформления */
+html[data-theme='cyber'] .btn,
+html[data-theme='cyber'] .tool-btn.active,
+html[data-theme='cyber'] .mbtn,
+html[data-theme='cyber'] .scene-tab,
+html[data-theme='cyber'] .chip {
+  clip-path: polygon(0 0, calc(100% - var(--cy-cut)) 0, 100% var(--cy-cut), 100% 100%, var(--cy-cut) 100%, 0 calc(100% - var(--cy-cut)));
+}
+
+/* ---------- верхняя полоса: рельс с отметками ---------- */
+html[data-theme='cyber'] .g-top {
+  position: relative;
+  background: linear-gradient(180deg, #151c24 0%, #10151b 100%);
+  border-bottom: 1px solid #2a3541;
+}
+html[data-theme='cyber'] .g-top::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background:
+    linear-gradient(90deg, var(--brass) 0 140px, transparent 140px 146px, var(--brass) 146px 152px, transparent 152px),
+    repeating-linear-gradient(90deg, transparent 0 22px, rgba(220, 228, 235, 0.18) 22px 23px);
+  pointer-events: none;
+}
+html[data-theme='cyber'] .g-title {
+  font: 600 16px/1 var(--font-serif);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+html[data-theme='cyber'] .g-back svg {
+  color: var(--brass);
+}
+
+/* ---------- инструменты ---------- */
+html[data-theme='cyber'] .g-tools {
+  background: #0f1419;
+  border-right: 1px solid #2a3541;
+}
+html[data-theme='cyber'] .tool-btn:hover {
+  background: #1f2832;
+  color: var(--bone);
+  box-shadow: inset 2px 0 0 var(--cy-data);
+}
+html[data-theme='cyber'] .tool-btn.active {
+  background: var(--brass);
+  color: #fff;
+}
+html[data-theme='cyber'] .layer-btn.active {
+  background: #12313a;
+  color: var(--cy-data);
+  box-shadow: inset 0 0 0 1px var(--cy-data);
+}
+
+/* ---------- кнопки, поля, вкладки ---------- */
+html[data-theme='cyber'] .btn {
+  font: 600 12.5px/1 var(--font-sans);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: #1f2832;
+  border-color: #3a4754;
+}
+html[data-theme='cyber'] .btn-primary {
+  background: var(--brass);
+  border-color: var(--brass);
+  color: #fff;
+}
+html[data-theme='cyber'] .btn-primary:hover:not(:disabled) {
+  background: var(--brass-hi);
+}
+html[data-theme='cyber'] .btn-danger {
+  color: #ff9aa6;
+}
+html[data-theme='cyber'] .input,
+html[data-theme='cyber'] select.input,
+html[data-theme='cyber'] textarea.input {
+  background: #0b0f13;
+  border-color: #2f3b48;
+  border-left: 2px solid #3a4754;
+}
+html[data-theme='cyber'] .input:focus {
+  border-color: var(--cy-data);
+  border-left-color: var(--cy-data);
+  box-shadow: 0 0 0 1px rgba(73, 205, 221, 0.25);
+}
+html[data-theme='cyber'] .tab {
+  font: 600 12.5px var(--font-sans);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+html[data-theme='cyber'] .tab.active {
+  color: var(--bone);
+  border-bottom: 2px solid var(--brass);
+  background: linear-gradient(0deg, rgba(211, 38, 58, 0.14), transparent 70%);
+}
+html[data-theme='cyber'] .side-tabs .tab.active {
+  box-shadow: inset 0 -2px 0 var(--brass);
+}
+html[data-theme='cyber'] .tab-badge {
+  border-radius: 0;
+  font-family: var(--font-mono);
+}
+html[data-theme='cyber'] .toggle-track {
+  border-radius: 0;
+}
+html[data-theme='cyber'] .toggle-thumb {
+  border-radius: 0 !important;
+}
+html[data-theme='cyber'] .toggle input:checked + .toggle-track {
+  background: #12313a;
+  border-color: var(--cy-data);
+}
+html[data-theme='cyber'] .toggle input:checked + .toggle-track .toggle-thumb {
+  background: var(--cy-data);
+}
+html[data-theme='cyber'] .chip.on {
+  color: #fff;
+}
+html[data-theme='cyber'] .scene-tab {
+  font: 600 12px var(--font-sans);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-radius: 0;
+}
+html[data-theme='cyber'] .scene-tab.active {
+  background: rgba(211, 38, 58, 0.18);
+  border-color: var(--brass);
+  color: var(--bone);
+}
+
+/* заголовки разделов: багровая метка слева, тонкий рельс справа */
+html[data-theme='cyber'] .j-h,
+html[data-theme='cyber'] .sub-h,
+html[data-theme='cyber'] .modal-head h2 {
+  font: 600 13px/1.2 var(--font-serif);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--bone);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+html[data-theme='cyber'] .j-h::before,
+html[data-theme='cyber'] .sub-h::before {
+  content: '';
+  width: 3px;
+  height: 12px;
+  background: var(--brass);
+  flex: none;
+}
+html[data-theme='cyber'] .j-h::after,
+html[data-theme='cyber'] .sub-h::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, #3a4754, transparent);
+}
+
+/* ---------- боковая панель ---------- */
+html[data-theme='cyber'] .sidebar {
+  background: #10151b;
+  border-left: 1px solid #2a3541;
+}
+html[data-theme='cyber'] .side-tabs-row {
+  background: #0d1116;
+}
+
+/* ---------- окна и всплывающие меню ---------- */
+html[data-theme='cyber'] .fwin,
+html[data-theme='cyber'] .modal {
+  border: 1px solid #3a4754;
+  background: #12171d;
+}
+html[data-theme='cyber'] .fwin-head,
+html[data-theme='cyber'] .modal-head {
+  position: relative;
+  background: linear-gradient(90deg, #1b232c, #141a21);
+  border-bottom: 1px solid #2a3541;
+}
+html[data-theme='cyber'] .fwin-head::before,
+html[data-theme='cyber'] .modal-head::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--brass);
+}
+html[data-theme='cyber'] .fwin-title {
+  font: 600 13.5px var(--font-serif);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+html[data-theme='cyber'] .ctx-menu,
+html[data-theme='cyber'] .ctx-sub {
+  background: #12171d;
+  border: 1px solid #3a4754;
+  border-top: 2px solid var(--brass);
+}
+html[data-theme='cyber'] .ctx-item:hover:not(:disabled) {
+  background: #1f2832;
+  box-shadow: inset 2px 0 0 var(--cy-data);
+}
+html[data-theme='cyber'] .toast {
+  border-radius: 0;
+  border-left: 3px solid var(--cy-data);
+  background: #12171d;
+}
+html[data-theme='cyber'] .toast-error {
+  border-left-color: var(--brass);
+}
+
+/* ---------- доска: чертёжная сетка и уголки прицела вокруг ---------- */
+html[data-theme='cyber'] .board {
+  background:
+    linear-gradient(rgba(73, 205, 221, 0.045) 1px, transparent 1px) 0 0 / 28px 28px,
+    linear-gradient(90deg, rgba(73, 205, 221, 0.045) 1px, transparent 1px) 0 0 / 28px 28px,
+    radial-gradient(ellipse at 50% 45%, #121a22 0%, #0a0d11 75%);
+}
+/* уголки прицела по краям поля; нижний обнимает панель масштаба */
+html[data-theme='cyber'] .g-board-wrap::before,
+html[data-theme='cyber'] .g-board-wrap::after {
+  content: '';
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  z-index: 11;
+  pointer-events: none;
+  border: 2px solid rgba(211, 38, 58, 0.8);
+}
+html[data-theme='cyber'] .g-board-wrap::before {
+  left: 5px;
+  top: 5px;
+  border-right: 0;
+  border-bottom: 0;
+}
+html[data-theme='cyber'] .g-board-wrap::after {
+  right: 4px;
+  bottom: 4px;
+  border-left: 0;
+  border-top: 0;
+}
+html[data-theme='cyber'] .board-hud,
+html[data-theme='cyber'] .gm-start {
+  border-radius: 0;
+  background: rgba(14, 18, 23, 0.94);
+  border: 1px solid #3a4754;
+}
+html[data-theme='cyber'] .gm-start {
+  border-top: 2px solid var(--brass);
+}
+html[data-theme='cyber'] .macro-bar {
+  background: #0f1419;
+  border-top: 1px solid #2a3541;
+}
+html[data-theme='cyber'] .mbtn {
+  border-radius: 0;
+  background: #1a222b;
+  border-color: #3a4754;
+  font: 600 12px var(--font-sans);
+  letter-spacing: 0.04em;
+}
+html[data-theme='cyber'] .mbtn:hover {
+  border-color: var(--cy-data);
+  color: #fff;
+}
+html[data-theme='cyber'] .tok-name {
+  font-family: var(--font-sans);
+  letter-spacing: 0.02em;
+}
+
+/* ---------- чат: журнал терминала ---------- */
+html[data-theme='cyber'] .textchatcontainer {
+  background:
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.012) 0 1px, transparent 1px 3px),
+    #0d1217;
+  color: #cdd6de;
+  font-family: var(--font-sans);
+}
+html[data-theme='cyber'] .textchatcontainer .message {
+  border-left: 2px solid var(--pc, transparent);
+}
+html[data-theme='cyber'] .textchatcontainer .message .by {
+  color: #fff;
+  border-bottom: 0;
+  font-family: var(--font-sans);
+  letter-spacing: 0.02em;
+}
+html[data-theme='cyber'] .textchatcontainer .message .tstamp {
+  color: #5f6d7c;
+  font-family: var(--font-mono);
+}
+html[data-theme='cyber'] .textchatcontainer .message .avatar span,
+html[data-theme='cyber'] .textchatcontainer .message .avatar img {
+  border-radius: 0;
+  clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 0 100%);
+}
+html[data-theme='cyber'] .textchatcontainer .message.whisper {
+  background: rgba(63, 191, 209, 0.07);
+}
+html[data-theme='cyber'] .textchatcontainer .message.whisper .by {
+  color: var(--cy-data);
+}
+html[data-theme='cyber'] .textchatcontainer .message.gmrollresult {
+  background: rgba(242, 177, 58, 0.06);
+}
+html[data-theme='cyber'] .textchatcontainer .message.emote {
+  color: #b9a5ff;
+}
+html[data-theme='cyber'] .textchatcontainer .message.desc {
+  color: #dce4eb;
+  background: rgba(255, 255, 255, 0.04);
+  border-left: 3px solid var(--brass);
+  font-family: var(--font-sans);
+  font-style: normal;
+}
+html[data-theme='cyber'] .textchatcontainer .message.system {
+  color: #8a99a8;
+  background: rgba(255, 255, 255, 0.03);
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+}
+html[data-theme='cyber'] .textchatcontainer .message.system.error {
+  color: #ff8d9a;
+  background: rgba(211, 38, 58, 0.12);
+}
+html[data-theme='cyber'] .textchatcontainer a {
+  color: var(--cy-data);
+}
+html[data-theme='cyber'] .textchatcontainer a.r20-btn {
+  background: #2a0d13;
+  border: 1px solid var(--brass);
+  border-radius: 0;
+  color: #ffd7dc;
+  font-family: var(--font-sans);
+  clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 0 100%);
+}
+html[data-theme='cyber'] .textchatcontainer a.r20-btn:hover {
+  background: var(--brass);
+  color: #fff;
+}
+html[data-theme='cyber'] .textchatcontainer a.fx-apply-btn {
+  border: 1px solid var(--cy-data);
+  border-radius: 0;
+  background: transparent;
+  color: var(--cy-data);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 0 100%);
+}
+html[data-theme='cyber'] .textchatcontainer a.fx-apply-btn:hover {
+  background: var(--cy-data);
+  color: #071015;
+}
+html[data-theme='cyber'] .load-earlier {
+  background: #161d25;
+  border-color: #3a4754;
+  border-radius: 0;
+  color: var(--bone-dim);
+}
+html[data-theme='cyber'] .textchatcontainer code {
+  background: #1f2832;
+  color: var(--cy-data);
+}
+html[data-theme='cyber'] .chat-empty {
+  color: #637180;
+  font-family: var(--font-sans);
+}
+/* результаты бросков — показания приборов */
+html[data-theme='cyber'] .inlinerollresult {
+  background: #102a31;
+  border: 1px solid #2a6f7a;
+  color: #e9fbff;
+  font-family: var(--font-mono);
+  font-weight: 600;
+}
+html[data-theme='cyber'] .inlinerollresult.fullcrit {
+  border-color: #5fe08a;
+  box-shadow: 0 0 6px rgba(95, 224, 138, 0.5);
+}
+html[data-theme='cyber'] .inlinerollresult.fullfail {
+  border-color: var(--brass-hi);
+  box-shadow: 0 0 6px rgba(240, 60, 81, 0.5);
+}
+html[data-theme='cyber'] .message .rolled {
+  font: 600 22px/1.2 var(--font-mono);
+  background: #102a31;
+  border: 1px solid var(--cy-data);
+  border-radius: 0;
+  color: #fff;
+  text-shadow: 0 0 8px rgba(73, 205, 221, 0.55);
+}
+html[data-theme='cyber'] .message.rollresult .formula,
+html[data-theme='cyber'] .message.gmrollresult .formula,
+html[data-theme='cyber'] .message .rr-math,
+html[data-theme='cyber'] .message .roll-comment {
+  color: #8a99a8;
+  font-family: var(--font-mono);
+}
+html[data-theme='cyber'] .message .formattedformula {
+  background: #121a21;
+  border-color: #2a3541;
+  border-radius: 0;
+}
+html[data-theme='cyber'] .message .diceroll {
+  background: #26313d;
+  border-radius: 0;
+  font-family: var(--font-mono);
+}
+/* шаблон по умолчанию — карточка данных */
+html[data-theme='cyber'] .sheet-rolltemplate-default table {
+  background: #121a21;
+  border: 1px solid #3a4754;
+  color: #dce4eb;
+}
+html[data-theme='cyber'] .sheet-rolltemplate-default caption {
+  background: var(--brass);
+  border-radius: 0;
+  font: 600 13px var(--font-serif);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: left;
+  padding: 5px 8px;
+  clip-path: polygon(0 0, calc(100% - 9px) 0, 100% 9px, 100% 100%, 0 100%);
+}
+html[data-theme='cyber'] .sheet-rolltemplate-default tr:nth-child(even) {
+  background-color: #182029;
+}
+html[data-theme='cyber'] .sheet-rolltemplate-default td:first-child {
+  color: #98a6b3;
+  font-weight: 600;
+}
+/* шаблоны листов рассчитаны на светлый чат Roll20 — даём им светлую подложку */
+html[data-theme='cyber'] .textchatcontainer [class^='sheet-rolltemplate-']:not(.sheet-rolltemplate-default) {
+  background: #e8edf1;
+  color: #182029;
+  padding: 3px;
+  margin: 2px 0;
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%);
+}
+html[data-theme='cyber'] .roll-tip {
+  background: #0f1419;
+  border: 1px solid var(--cy-data);
+  border-radius: 0;
+  font-family: var(--font-sans);
+}
+html[data-theme='cyber'] .roll-tip .rt-head {
+  font-family: var(--font-mono);
+}
+html[data-theme='cyber'] .chat-input {
+  background: #10151b;
+  border-top: 1px solid #2a3541;
+}
+html[data-theme='cyber'] .die-btn {
+  border-radius: 0;
+  font-family: var(--font-mono);
+  background: #161d25;
+}
+html[data-theme='cyber'] .die-btn:hover {
+  border-color: var(--cy-data);
+  color: #fff;
+}
+html[data-theme='cyber'] .chat-text {
+  font-family: var(--font-mono) !important;
+  font-size: 13px !important;
+  caret-color: var(--cy-data);
+}
+
+html[data-theme='cyber'] .turn-ring {
+  stroke: var(--cy-data);
+  stroke-dasharray: 3 5;
+  filter: drop-shadow(0 0 3px rgba(73, 205, 221, 0.8));
+}
+html[data-theme='cyber'] .sel-box {
+  stroke: var(--cy-data);
+}
+html[data-theme='cyber'] .marquee {
+  fill: rgba(73, 205, 221, 0.1);
+  stroke: var(--cy-data);
+}
+
+/* ---------- порядок ходов, карты, полосы токенов ---------- */
+html[data-theme='cyber'] .turn-card {
+  border-radius: 0;
+  font-family: var(--font-mono);
+}
+html[data-theme='cyber'] .tok-bar {
+  border-radius: 0;
+}
+html[data-theme='cyber'] .tok-bar-text {
+  font-family: var(--font-mono);
+}
+
+/* ---------- один раз при входе: терминал загружается ---------- */
+html[data-theme='cyber']:not(.theme-still) .game.theme-boot .g-top {
+  animation: cy-rail-in 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+html[data-theme='cyber']:not(.theme-still) .game.theme-boot .g-tools,
+html[data-theme='cyber']:not(.theme-still) .game.theme-boot .sidebar {
+  animation: cy-panel-in 0.55s 0.12s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+html[data-theme='cyber']:not(.theme-still) .game.theme-boot .g-board-wrap::before,
+html[data-theme='cyber']:not(.theme-still) .game.theme-boot .g-board-wrap::after {
+  animation: cy-reticle 0.7s 0.3s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+html[data-theme='cyber']:not(.theme-still) .game.theme-boot .g-board-wrap .cy-scan {
+  animation: cy-scan 0.9s 0.25s ease-out both;
+}
+.cy-scan {
+  display: none;
+}
+html[data-theme='cyber'] .cy-scan {
+  display: block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 70px;
+  z-index: 4;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(180deg, transparent, rgba(73, 205, 221, 0.12) 70%, rgba(73, 205, 221, 0.5) 100%);
+}
+@keyframes cy-rail-in {
+  from {
+    transform: translateY(-100%);
+  }
+}
+@keyframes cy-panel-in {
+  from {
+    opacity: 0;
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+}
+@keyframes cy-reticle {
+  from {
+    opacity: 0;
+    transform: scale(2.2);
+  }
+}
+@keyframes cy-scan {
+  0% {
+    opacity: 1;
+    transform: translateY(-70px);
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(calc(100vh - 120px));
+  }
+}
+/* новая запись в журнале — короткая вспышка слева */
+html[data-theme='cyber']:not(.theme-still) .msg-wrap.fresh > .message {
+  animation: cy-msg 0.6s ease-out;
+}
+@keyframes cy-msg {
+  from {
+    background-color: rgba(73, 205, 221, 0.16);
+    box-shadow: inset 2px 0 0 var(--cy-data);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html[data-theme='cyber'] *,
+  html[data-theme='cyber'] *::before,
+  html[data-theme='cyber'] *::after {
+    animation: none !important;
+  }
+}
+html[data-theme='cyber'] .textchatcontainer .react-chip {
+  border-color: #2c3a46;
+  border-radius: 0;
+  background: #121920;
+  color: #d8e3ec;
+}
+html[data-theme='cyber'] .textchatcontainer .react-chip b {
+  font-family: var(--font-mono);
+  color: #9fb3c2;
+}
+html[data-theme='cyber'] .textchatcontainer .react-chip.on {
+  border-color: var(--cy-data);
+  background: rgba(56, 242, 255, 0.08);
+}
+html[data-theme='cyber'] .textchatcontainer .message .react-add {
+  border-radius: 0;
+  background: #121920;
+  color: var(--cy-data);
+  box-shadow: 0 0 0 1px #2c3a46;
+}
+html[data-theme='cyber'] .react-picker {
+  border-radius: 0;
+  border-color: var(--brass);
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+}
+/* итоги вечера — отчёт смены */
+html[data-theme='cyber'] .sum-card {
+  border-color: #2c3a46;
+  border-radius: 0;
+  background: #111a22;
+  box-shadow: inset 2px 0 0 var(--cy-data);
+  color: #d8e3ec;
+}
+html[data-theme='cyber'] .sum-head,
+html[data-theme='cyber'] .sum-table th,
+html[data-theme='cyber'] .sum-table td {
+  border-color: #233140;
+}
+html[data-theme='cyber'] .sum-title {
+  font-family: var(--font-serif);
+  color: var(--cy-data);
+}
+html[data-theme='cyber'] .sum-stat b {
+  font-family: var(--font-mono);
+  color: #e6f3fb;
+}
+html[data-theme='cyber'] .sum-award-title {
+  color: var(--cy-amber);
+}
+html[data-theme='cyber'] .sum-when,
+html[data-theme='cyber'] .sum-stat span,
+html[data-theme='cyber'] .sum-why,
+html[data-theme='cyber'] .sum-player,
+html[data-theme='cyber'] .sum-private,
+html[data-theme='cyber'] .sum-table th,
+html[data-theme='cyber'] .sum-details summary {
+  color: #8aa0b1;
+}
+html[data-theme='cyber'] .sum-moment {
+  border-left-color: var(--cy-data);
+  border-radius: 0;
+  background: rgba(73, 205, 221, 0.07);
+}
+html[data-theme='cyber'] .sum-moment-h {
+  color: var(--cy-data);
+}
+html[data-theme='cyber'] .trap-card {
+  border-color: #4a2630;
+  border-left-color: #ff4d6d;
+  border-radius: 0;
+  background: #1a1014;
+  color: #f0d6dc;
+}
+html[data-theme='cyber'] .trap-card-h {
+  color: #ff6b85;
+}
+html[data-theme='cyber'] .trap-card-who {
+  color: #b48a94;
+}

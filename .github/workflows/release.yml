@@ -1,0 +1,55 @@
+# Выпуск по тегу vX.Y.Z: тесты, программы для Windows и Linux, установщик и файл обновления —
+# и всё это в Releases с описанием из CHANGELOG.md. Перед тегом поднимите версию в package.json.
+name: Выпуск
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Версия в package.json совпадает с тегом
+        run: |
+          V=$(node -p "require('./package.json').version")
+          if [ "v$V" != "$GITHUB_REF_NAME" ]; then echo "Тег $GITHUB_REF_NAME, а в package.json — $V"; exit 1; fi
+          echo "VERSION=$V" >> "$GITHUB_ENV"
+
+      - name: NSIS для установщика Windows
+        run: sudo apt-get update && sudo apt-get install -y nsis
+
+      - run: npm ci
+      - run: npm test
+
+      - name: Сборка программ
+        env:
+          # ссылка «исходный код» в справке программы ведёт в этот репозиторий
+          TAVERNA_SOURCE_URL: ${{ github.server_url }}/${{ github.repository }}
+        run: npm run build:exe
+
+      - name: Контрольные суммы
+        working-directory: release
+        run: sha256sum Taverna-$VERSION-* taverna-$VERSION-* > SHA256SUMS.txt
+
+      - name: Выпуск на GitHub
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          node scripts/release-notes.mjs "$VERSION" > release/notes.md
+          FILES="release/Taverna-$VERSION-* release/taverna-$VERSION-* release/SHA256SUMS.txt"
+          if gh release view "$GITHUB_REF_NAME" > /dev/null 2>&1; then
+            # выпуск уже создан вручную на сайте — доливаем в него файлы (одноимённые заменяются)
+            gh release upload "$GITHUB_REF_NAME" $FILES --clobber
+          else
+            gh release create "$GITHUB_REF_NAME" $FILES --title "Таверна $VERSION" --notes-file release/notes.md
+          fi

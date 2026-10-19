@@ -1,0 +1,12 @@
+# текст — с переводом строки LF во всём репозитории (скрипты сборки и листы так и ждут)
+* text=auto eol=lf
+
+# двоичные файлы — без изменений
+*.png binary
+*.jpg binary
+*.webp binary
+*.gif binary
+*.bmp binary
+*.ico binary
+*.wav binary
+*.woff2 binary

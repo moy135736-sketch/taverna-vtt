@@ -1,0 +1,82 @@
+# Таверна + Caddy (автоматический HTTPS от Let's Encrypt).
+# Перед запуском: cp .env.example .env и укажите DOMAIN.
+#   docker compose up -d --build
+# С собственным TURN-сервером для голосового чата (нужны TURN_URLS и TURN_SECRET в .env):
+#   docker compose --profile voice up -d --build
+services:
+  app:
+    build: .
+    image: taverna-vtt:latest
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      NODE_ENV: production
+      DATA_DIR: /data
+      TRUST_PROXY: "1"
+    volumes:
+      - taverna-data:/data
+    expose:
+      - "3000"
+    logging:
+      driver: json-file
+      options: { max-size: "10m", max-file: "3" }
+
+  caddy:
+    image: caddy:2.8-alpine
+    restart: unless-stopped
+    depends_on:
+      - app
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      DOMAIN: ${DOMAIN:-:80}
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    logging:
+      driver: json-file
+      options: { max-size: "10m", max-file: "3" }
+
+  # Необязательный TURN-сервер (ретранслятор голоса и видео для игроков за строгими сетями).
+  # Работает в сети хоста: откройте в файрволе 3478/tcp, 3478/udp и 49160-49200/udp.
+  coturn:
+    image: coturn/coturn:4.18
+    profiles: ["voice"]
+    restart: unless-stopped
+    network_mode: host
+    command:
+      - -n
+      - --log-file=stdout
+      - --listening-port=3478
+      - --min-port=49160
+      - --max-port=49200
+      - --fingerprint
+      - --use-auth-secret
+      - --static-auth-secret=${TURN_SECRET:-}
+      - --realm=taverna
+      - --no-cli
+      - --no-tls
+      - --no-dtls
+      - --no-multicast-peers
+      # не пускать ретранслятор во внутренние сети сервера
+      - --denied-peer-ip=0.0.0.0-0.255.255.255
+      - --denied-peer-ip=10.0.0.0-10.255.255.255
+      - --denied-peer-ip=100.64.0.0-100.127.255.255
+      - --denied-peer-ip=127.0.0.0-127.255.255.255
+      - --denied-peer-ip=169.254.0.0-169.254.255.255
+      - --denied-peer-ip=172.16.0.0-172.31.255.255
+      - --denied-peer-ip=192.168.0.0-192.168.255.255
+      - --denied-peer-ip=::1
+      - --denied-peer-ip=fc00::-fdff:ffff:ffff:ffff:ffff:ffff:ffff:ffff
+      - --denied-peer-ip=fe80::-febf:ffff:ffff:ffff:ffff:ffff:ffff:ffff
+    logging:
+      driver: json-file
+      options: { max-size: "10m", max-file: "3" }
+
+volumes:
+  taverna-data:
+  caddy-data:
+  caddy-config:

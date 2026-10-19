@@ -1,0 +1,201 @@
+/* Статблок монстра: лист пергамента с киноварью, как в книге правил */
+.statblock {
+  container-type: inline-size;
+  --sb-paper: #f6eedb;
+  --sb-ink: #241b12;
+  --sb-red: #8b2014;
+  --sb-muted: #6b5a45;
+  --sb-line: rgba(139, 32, 20, 0.42);
+  position: relative;
+  padding: 14px 16px 16px;
+  border-top: 4px solid #b8892d;
+  border-bottom: 4px solid #b8892d;
+  border-radius: 2px;
+  background:
+    radial-gradient(ellipse 90% 60% at 30% 0%, rgba(255, 252, 240, 0.7), transparent 70%),
+    radial-gradient(ellipse 120% 100% at 50% 50%, transparent 60%, rgba(150, 110, 50, 0.14) 100%),
+    var(--sb-paper);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  color: var(--sb-ink);
+  font: 13.5px/1.42 var(--font-sans);
+  text-align: left;
+}
+.sb-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 10px;
+}
+.sb-name {
+  margin: 0;
+  font: 700 23px/1.1 var(--font-serif);
+  color: var(--sb-red);
+}
+.sb-ru {
+  font-size: 13px;
+  color: var(--sb-muted);
+}
+.sb-kind {
+  flex-basis: 100%;
+  margin: 1px 0 0;
+  font-style: italic;
+  color: var(--sb-muted);
+}
+/* киноварная черта, сужающаяся к концу */
+.sb-rule {
+  height: 4px;
+  margin: 9px 0 7px;
+  background: linear-gradient(90deg, var(--sb-red) 60%, rgba(139, 32, 20, 0.2));
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+.sb-line {
+  margin: 1px 0;
+}
+.sb-line b {
+  color: var(--sb-red);
+}
+.sb-gap {
+  margin-left: 12px;
+}
+.sb-abil {
+  width: 100%;
+  margin: 8px 0;
+  border-collapse: collapse;
+  font-size: 13px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+.sb-abil thead th {
+  padding: 0 2px 2px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--sb-muted);
+}
+.sb-abil tbody th {
+  padding: 3px 4px 3px 6px;
+  color: var(--sb-red);
+  font-weight: 700;
+  text-align: left;
+}
+.sb-abil tbody td {
+  padding: 3px 4px;
+  border-top: 1px solid rgba(139, 32, 20, 0.12);
+}
+.sb-abil tbody tr:first-child td {
+  border-top: 0;
+}
+.sb-abil tbody th:not(:first-child) {
+  border-left: 1px solid var(--sb-line);
+}
+.sb-score {
+  font-weight: 700;
+}
+.sb-abil-narrow {
+  display: none;
+}
+@container (max-width: 470px) {
+  .sb-abil-wide {
+    display: none;
+  }
+  .sb-abil-narrow {
+    display: table;
+  }
+}
+.sb-abil td.sb-prof {
+  color: var(--sb-red);
+  font-weight: 700;
+}
+.sb-props {
+  padding-top: 6px;
+  border-top: 1px solid var(--sb-line);
+}
+.sb-sec h4 {
+  margin: 12px 0 6px;
+  padding-bottom: 2px;
+  border-bottom: 1px solid var(--sb-line);
+  font: 700 16px/1.2 var(--font-serif);
+  color: var(--sb-red);
+}
+.sb-intro {
+  margin: 0 0 6px;
+  font-style: italic;
+  color: var(--sb-muted);
+}
+.sb-entry {
+  margin: 0 0 6px;
+}
+.sb-entry em {
+  color: var(--sb-muted);
+}
+.sb-ename {
+  font-style: italic;
+  font-weight: 700;
+}
+button.sb-ename {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--sb-ink);
+  font: inherit;
+  font-style: italic;
+  font-weight: 700;
+  text-decoration: underline dotted var(--sb-line);
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+button.sb-ename:hover {
+  color: var(--sb-red);
+}
+button.sb-ename:focus-visible {
+  outline: 2px solid var(--sb-red);
+  outline-offset: 2px;
+}
+/* у действий с броском — маленький d20 перед названием */
+button.sb-ename.roll::before {
+  content: '';
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  margin-right: 4px;
+  vertical-align: -1px;
+  background: var(--sb-red);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 1.5 21.5 7v10L12 22.5 2.5 17V7z' fill='none' stroke='black' stroke-width='2.2' stroke-linejoin='round'/%3E%3Cpath d='M12 6.5 17.5 16h-11z' fill='none' stroke='black' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+.sb-para {
+  display: block;
+  margin-top: 3px;
+}
+
+/* «Киберпанк»: тот же порядок, но экран терминала */
+html[data-theme='cyber'] .statblock {
+  --sb-paper: #10171d;
+  --sb-ink: #d7e3eb;
+  --sb-red: #49cddd;
+  --sb-muted: #8aa0b1;
+  --sb-line: rgba(73, 205, 221, 0.35);
+  border-color: #f2b13a;
+  border-radius: 0;
+  background: var(--sb-paper);
+}
+html[data-theme='cyber'] .sb-name {
+  font-family: var(--font-serif);
+}
+
+/* вкладка «Статблок» в окне персонажа */
+.statblock-tab {
+  max-width: 760px;
+  padding: 12px 16px 30px;
+}
+.sbt-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 8px;
+}
+.sbt-hint {
+  margin: 8px 0 10px;
+}
+.sbt-src {
+  margin: 10px 0 0;
+}

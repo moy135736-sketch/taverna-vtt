@@ -1,0 +1,42 @@
+{
+  "DnD2024": {
+    "name": "D&D 2024 (лист Таверны)",
+    "description": "Лист по правилам 2024 года (SRD 5.2): мастерство оружия, героическое вдохновение, новое истощение, кости хитов и отдых в один щелчок."
+  },
+  "DD5thEditionLegacy": {
+    "name": "D&D 5E by Roll20 (2014, OGL)",
+    "description": "Официальный лист Roll20 для D&D 5e (редакция 2014): шаблоны бросков, NPC, заклинания, атаки."
+  },
+  "Warhammer Fantasy Roleplay 4e Official": {
+    "name": "Warhammer Fantasy Roleplay 4e (официальный)",
+    "description": "Официальный лист WFRP 4e от Cubicle 7 и Roll20."
+  },
+  "Warhammer 4e Character Sheet": {
+    "name": "Warhammer Fantasy 4e (Djjus, CRP)",
+    "description": "Расширенный лист WFRP 4e с автоматическим подсчётом SL (Custom Roll Parsing)."
+  },
+  "WFRP4CharSheet": {
+    "name": "WFRP 4e (лист сообщества)",
+    "description": "Лист WFRP 4e без API."
+  },
+  "Cyberpunk Red": {
+    "name": "Cyberpunk RED (Jumpstart)",
+    "description": "Простой лист по стартовому набору Cyberpunk RED."
+  },
+  "Cyberpunk Red Tabbed": {
+    "name": "Cyberpunk RED (с вкладками)",
+    "description": "Полный лист Cyberpunk RED по основной книге."
+  },
+  "CyberpunkRED_raycw": {
+    "name": "Cyberpunk RED (ray-cw)",
+    "description": "Современный лист Cyberpunk RED (CSE) с расчётом урона."
+  },
+  "CyberpunkRED_Gerdofal": {
+    "name": "Cyberpunk RED (Gerdofal)",
+    "description": "Лист Cyberpunk RED по стартовому набору."
+  },
+  "Warhammer40k-WrathandGlory": {
+    "name": "Warhammer 40,000: Wrath & Glory",
+    "description": "Лист для Wrath & Glory."
+  }
+}

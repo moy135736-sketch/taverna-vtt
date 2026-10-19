@@ -1,0 +1,695 @@
+/* Чат в духе Roll20: светлая «бумага», чтобы шаблоны бросков из листов выглядели как задумано */
+.chat-panel {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+}
+.textchatcontainer {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: #f7f4ee;
+  color: #222;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+}
+.textchatcontainer .content {
+  padding: 4px 0 8px;
+}
+.chat-empty {
+  padding: 30px 20px;
+  text-align: center;
+  color: #8a8172;
+  font: 15px/1.5 var(--font-serif);
+}
+.load-earlier {
+  display: block;
+  margin: 6px auto;
+  border: 1px solid #cfc6b5;
+  background: #fff;
+  border-radius: 12px;
+  padding: 2px 12px;
+  font-size: 12px;
+  color: #6b604f;
+  cursor: pointer;
+}
+.textchatcontainer .message {
+  position: relative;
+  padding: 4px 8px 5px 45px;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.textchatcontainer .message.cont {
+  padding-top: 1px;
+}
+.withoutavatars .message {
+  padding-left: 12px;
+}
+.textchatcontainer .message .spacer {
+  height: 4px;
+}
+.textchatcontainer .message .avatar {
+  position: absolute;
+  left: 6px;
+  top: 7px;
+  width: 30px;
+  height: 30px;
+}
+.withoutavatars .message .avatar {
+  display: none;
+}
+.textchatcontainer .message .avatar img,
+.textchatcontainer .message .avatar span {
+  width: 30px;
+  height: 30px;
+  border-radius: 4px;
+  object-fit: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+}
+.textchatcontainer .message .tstamp {
+  float: right;
+  font-size: 10.5px;
+  color: #9a917f;
+  margin-left: 6px;
+}
+.textchatcontainer .message .by {
+  font-weight: 700;
+  color: #2a2a2a;
+  margin-right: 4px;
+  border-bottom: 2px solid var(--pc, #999);
+}
+.textchatcontainer .message.whisper {
+  background: #ede3f5;
+  font-style: italic;
+}
+.textchatcontainer .message.whisper .by {
+  border-bottom: 0;
+  color: #5b3b77;
+}
+.textchatcontainer .message.gmrollresult {
+  background: #f3ead7;
+}
+.gm-only {
+  font-size: 11px;
+  color: #8a6d2a;
+  margin-left: 4px;
+}
+.textchatcontainer .message.emote {
+  color: #6b4f9e;
+  font-style: italic;
+  font-weight: 600;
+  text-align: center;
+  padding-left: 12px;
+}
+.textchatcontainer .message.desc {
+  color: #2b2b2b;
+  font: italic 15px/1.5 var(--font-serif);
+  background: #ebe4d5;
+  border-left: 3px solid #b39b6a;
+  padding-left: 14px;
+  margin: 3px 0;
+}
+.textchatcontainer .message.ooc .ooc-tag {
+  color: #9a917f;
+  font-size: 11px;
+}
+.textchatcontainer .message.system {
+  padding: 4px 12px;
+  color: #6b604f;
+  font-size: 12px;
+  white-space: pre-wrap;
+  background: #efe9dd;
+}
+.textchatcontainer .message.system.error {
+  color: #9b2335;
+  background: #f8e3e4;
+}
+.textchatcontainer .chat-img {
+  max-width: 100%;
+  max-height: 260px;
+  display: block;
+  margin: 4px 0;
+}
+.textchatcontainer a {
+  color: #8e2a0f;
+}
+.textchatcontainer code {
+  background: #e7e0d2;
+  padding: 0 3px;
+  border-radius: 3px;
+}
+/* кнопки-способности в чате (как в Roll20) */
+.textchatcontainer a.r20-btn {
+  display: inline-block;
+  padding: 1px 8px;
+  margin: 1px 0;
+  border-radius: 4px;
+  background: #ce0f69;
+  border: 1px solid #a70c55;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  font-style: normal;
+  cursor: pointer;
+}
+.textchatcontainer a.r20-btn:hover {
+  background: #e3207f;
+}
+
+/* «Наложить эффект» под броском заклинания или приёма */
+.textchatcontainer .fx-apply {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 4px 0 1px;
+}
+.textchatcontainer a.fx-apply-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 9px;
+  border: 1px solid #b9a77f;
+  border-radius: 11px;
+  background: #fffaf0;
+  color: #5b4520;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.textchatcontainer a.fx-apply-btn:hover {
+  border-color: #8a6d33;
+  background: #f6ead0;
+}
+.textchatcontainer a.fx-apply-btn:focus-visible {
+  outline: 2px solid #8a6d33;
+  outline-offset: 1px;
+}
+
+/* inline-броски */
+.inlinerollresult {
+  display: inline-block;
+  min-width: 1.6em;
+  text-align: center;
+  padding: 0 3px;
+  background-color: #fef68e;
+  border: 2px solid #fef68e;
+  font-weight: 700;
+  cursor: pointer; /* щелчок — урон или лечение выделенным токенам */
+  font-size: 1.1em;
+  color: #000;
+  line-height: 1.25;
+}
+.inlinerollresult.fullcrit {
+  border: 2px solid #3fb315;
+}
+.inlinerollresult.fullfail {
+  border: 2px solid #b31515;
+}
+.inlinerollresult.importantroll {
+  border: 2px solid #4a57ed;
+}
+.inlinerollresult.computed::after {
+  content: '⚛';
+  font-size: 0.7em;
+  vertical-align: super;
+  margin-left: 1px;
+  opacity: 0.6;
+}
+
+/* результат /roll */
+.message.rollresult .formula,
+.message.gmrollresult .formula {
+  display: inline-block;
+  font-size: 12px;
+  color: #6b604f;
+}
+.message .formattedformula {
+  display: block;
+  margin: 3px 0;
+  padding: 3px 4px;
+  background: #fff;
+  border: 1px solid #ddd3c2;
+  border-radius: 4px;
+}
+.message .dicegrouping {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  margin-bottom: 2px;
+}
+.message .diceroll {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 3px;
+  border-radius: 4px;
+  background: #3b3128;
+  color: #fff;
+  font-weight: 700;
+  font-size: 12.5px;
+}
+.message .diceroll.critsuccess {
+  background: #2e8b23;
+}
+.message .diceroll.critfail {
+  background: #a51f1f;
+}
+.message .diceroll.dropped {
+  opacity: 0.35;
+}
+.message .diceroll.success {
+  box-shadow: 0 0 0 2px #2e8b23;
+}
+.message .diceroll.failure {
+  box-shadow: 0 0 0 2px #a51f1f;
+}
+.message .rr-math {
+  font-size: 12px;
+  color: #5a5045;
+}
+.message .rolled {
+  display: inline-block;
+  font: 700 22px/1.2 var(--font-serif);
+  padding: 2px 10px;
+  margin-top: 2px;
+  background: #fef68e;
+  border: 2px solid #f1e36e;
+  border-radius: 4px;
+  color: #000;
+}
+.message .rolled[data-mid] {
+  cursor: pointer;
+}
+.message .rolled.fullcrit {
+  border-color: #3fb315;
+}
+.message .rolled.fullfail {
+  border-color: #b31515;
+}
+.message .rolled.importantroll {
+  border-color: #4a57ed;
+}
+.message .roll-comment {
+  font-style: italic;
+  color: #6b604f;
+}
+.basicdiceroll.critsuccess {
+  color: #3fb315;
+  font-weight: 700;
+}
+.basicdiceroll.critfail {
+  color: #e53935;
+  font-weight: 700;
+}
+.basicdiceroll.dropped {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+.basicdiceroll.success {
+  text-decoration: underline;
+}
+.basicdiceroll.match {
+  border-bottom: 2px solid #4a57ed;
+}
+
+/* подсказка броска */
+.roll-tip {
+  position: fixed;
+  z-index: 9500;
+  width: 320px;
+  transform: translateY(-100%);
+  background: #1d1813;
+  color: #ece3d0;
+  border: 1px solid #6a5a49;
+  border-radius: 6px;
+  padding: 7px 10px;
+  font: 13px/1.45 var(--font-sans);
+  box-shadow: var(--shadow-pop);
+  pointer-events: none;
+}
+.roll-tip.below {
+  transform: none;
+}
+.roll-tip .rt-head {
+  color: #b9ad94;
+  font-size: 12px;
+  margin-bottom: 2px;
+  overflow-wrap: anywhere;
+}
+.roll-tip .rt-body {
+  overflow-wrap: anywhere;
+}
+.roll-tip .rt-label {
+  color: #8a7f6a;
+}
+.roll-tip .basicdiceroll.critsuccess {
+  color: #7be05c;
+}
+.roll-tip .basicdiceroll.critfail {
+  color: #ff6b6b;
+}
+.roll-tip s.rerolled {
+  color: #8a7f6a;
+  margin-right: 2px;
+}
+
+/* Шаблон по умолчанию Roll20 */
+.sheet-rolltemplate-default table {
+  width: 100%;
+  padding: 2px;
+  border: 1px solid #000;
+  background-color: #fff;
+  border-collapse: collapse;
+  margin: 2px 0;
+}
+.sheet-rolltemplate-default caption {
+  font-size: 1.15em;
+  font-weight: bold;
+  text-align: center;
+  padding: 4px 6px;
+  background-color: rgba(112, 32, 130, 1);
+  color: #fff;
+  border-radius: 6px 6px 0 0;
+  min-height: 18px;
+}
+.sheet-rolltemplate-default td {
+  padding: 3px 5px;
+  vertical-align: top;
+}
+.sheet-rolltemplate-default td:first-child {
+  font-weight: bold;
+  width: 40%;
+}
+.sheet-rolltemplate-default tr:nth-child(even) {
+  background-color: #eee;
+}
+
+/* поле ввода */
+.chat-input {
+  flex: none;
+  padding: 8px 10px 10px;
+  border-top: 1px solid var(--oak-700);
+  background: var(--oak-850);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.chat-input-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.as-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  color: var(--bone-dim);
+}
+.as-label select {
+  max-width: 170px;
+}
+.dice-tray {
+  display: flex;
+  gap: 2px;
+}
+.die-btn {
+  padding: 2px 5px;
+  font: 600 11.5px var(--font-sans);
+  border: 1px solid var(--oak-500);
+  background: var(--oak-700);
+  color: var(--bone-dim);
+  border-radius: 3px;
+  cursor: pointer;
+}
+.die-btn:hover {
+  color: var(--bone);
+  border-color: var(--brass);
+}
+.chat-input-row {
+  display: flex;
+  gap: 6px;
+  align-items: stretch;
+}
+.chat-text {
+  resize: none;
+  font-size: 14px !important;
+}
+.send-btn {
+  height: auto;
+  padding: 0 10px;
+}
+
+/* реакции под сообщением */
+.textchatcontainer .message .react-add {
+  position: absolute;
+  top: 2px;
+  right: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  color: #8a7f6a;
+  background: rgba(255, 252, 245, 0.92);
+  box-shadow: 0 0 0 1px rgba(120, 100, 70, 0.25);
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.textchatcontainer .message:hover .react-add,
+.textchatcontainer .message:focus-within .react-add,
+.textchatcontainer .message .react-add:focus-visible {
+  opacity: 1;
+}
+/* кнопка реакции встаёт на место времени, пока над сообщением мышь */
+.textchatcontainer .message:hover .tstamp,
+.textchatcontainer .message:focus-within .tstamp {
+  visibility: hidden;
+}
+.textchatcontainer .message .react-add:hover {
+  color: #5b4520;
+}
+@media (hover: none) {
+  /* на телефоне кнопка видна всегда — внизу справа, чтобы не закрывать время */
+  .textchatcontainer .message .react-add {
+    top: auto;
+    bottom: 2px;
+    opacity: 0.55;
+  }
+}
+.textchatcontainer .reactions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 4px 0 1px;
+}
+.textchatcontainer .react-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 0 7px 0 5px;
+  min-height: 22px;
+  border: 1px solid #d8cdb6;
+  border-radius: 11px;
+  background: #fffaf0;
+  color: #3d3020;
+  font-size: 14px;
+  line-height: 20px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.textchatcontainer .react-chip b {
+  font: 600 11.5px/1 'Helvetica Neue', Arial, sans-serif;
+  color: #6b5f50;
+}
+.textchatcontainer .react-chip.on {
+  border-color: #b8933f;
+  background: #f6e7c4;
+}
+.textchatcontainer .react-chip.on b {
+  color: #5b4520;
+}
+.textchatcontainer a.react-chip:hover {
+  border-color: #8a6d33;
+}
+/* итоги вечера */
+.textchatcontainer .message.summary {
+  padding: 8px 10px 8px;
+}
+.sum-private {
+  margin-bottom: 4px;
+  font-size: 11.5px;
+  color: #8a7f6a;
+}
+.sum-card {
+  padding: 10px 12px 8px;
+  border: 1px solid #d8cdb6;
+  border-radius: 8px;
+  background: linear-gradient(#fffdf8, #f4eddd);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    0 2px 6px rgba(80, 60, 30, 0.12);
+  color: #2b2418;
+}
+.sum-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 2px 10px;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #e3d8c2;
+}
+.sum-title {
+  font: 700 17px/1.2 Georgia, 'Times New Roman', serif;
+  color: #6b3d12;
+}
+.sum-when {
+  font-size: 12px;
+  color: #7d7060;
+}
+.sum-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+  margin-bottom: 8px;
+  text-align: center;
+}
+.sum-stat b {
+  display: block;
+  font: 700 19px/1.1 Georgia, 'Times New Roman', serif;
+  color: #3b2c18;
+}
+.sum-stat span {
+  font-size: 11px;
+  color: #7d7060;
+}
+.sum-awards {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.sum-award {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  gap: 6px;
+  align-items: start;
+  line-height: 1.3;
+}
+.sum-ico {
+  font-size: 17px;
+  line-height: 1.2;
+  text-align: center;
+}
+.sum-award-title {
+  font-weight: 700;
+  color: #6b3d12;
+}
+.sum-award-title::after {
+  content: ':';
+}
+.sum-name {
+  box-shadow: inset 0 -2px 0 var(--pc);
+}
+.sum-player {
+  font-size: 11px;
+  color: #8a7f6a;
+}
+.sum-why {
+  display: block;
+  font-size: 12px;
+  color: #6f6455;
+}
+.sum-moment {
+  margin-top: 8px;
+  padding: 6px 8px;
+  border-left: 3px solid #c9a24a;
+  border-radius: 0 6px 6px 0;
+  background: rgba(201, 162, 74, 0.1);
+  font-size: 13px;
+}
+.sum-moment-h {
+  margin-bottom: 2px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #8f7232;
+}
+.sum-moment q {
+  font-style: italic;
+}
+.sum-moment-r {
+  white-space: nowrap;
+}
+.sum-details {
+  margin-top: 8px;
+  font-size: 12px;
+}
+.sum-details summary {
+  color: #6b5a3e;
+  cursor: pointer;
+}
+.sum-table {
+  width: 100%;
+  margin-top: 4px;
+  border-collapse: collapse;
+}
+.sum-table th,
+.sum-table td {
+  padding: 2px 4px;
+  border-bottom: 1px solid #e8dfcc;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.sum-table th {
+  font-weight: 600;
+  color: #7d7060;
+}
+.sum-table th:first-child,
+.sum-table td:first-child {
+  text-align: left;
+}
+/* ловушка сработала */
+.textchatcontainer .message.trap {
+  padding: 6px 10px 6px;
+}
+.trap-card {
+  padding: 7px 10px 8px;
+  border: 1px solid #e0b7b7;
+  border-left: 4px solid #b23a48;
+  border-radius: 6px;
+  background: #fff4f2;
+  color: #3a2020;
+}
+.trap-card-h {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 3px;
+  color: #9a2533;
+}
+.trap-card-h b {
+  font: 700 15px/1.2 Georgia, 'Times New Roman', serif;
+}
+.trap-card-who {
+  margin-left: auto;
+  font-size: 12px;
+  color: #8a5a5a;
+}
+.trap-card-text {
+  line-height: 1.4;
+}

@@ -1,0 +1,36 @@
+name: Ошибка
+description: Что-то работает не так
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: Что случилось
+      description: Что делали, что ожидали увидеть и что получилось. Снимок экрана очень помогает.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Версия Таверны
+      description: Видна в окне сервера и в справке за столом.
+      placeholder: "1.9.0"
+  - type: dropdown
+    id: where
+    attributes:
+      label: Где работает Таверна
+      options:
+        - Windows (установщик или переносная версия)
+        - Linux-сервер (программа одним файлом)
+        - Docker
+        - Из исходников
+  - type: input
+    id: browser
+    attributes:
+      label: Браузер и устройство
+      placeholder: "Chrome 141, Windows 11; Safari, iPhone"
+  - type: input
+    id: sheet
+    attributes:
+      label: Лист персонажа (если ошибка в нём)
+      placeholder: "D&D 2024, Cyberpunk RED…"

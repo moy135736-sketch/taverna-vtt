@@ -1,0 +1,14 @@
+# DOMAIN — ваш домен (например, vtt.example.ru): Caddy сам получит и будет продлевать сертификат Let's Encrypt.
+# Без домена укажите DOMAIN=:80 — сайт будет доступен по http://IP-сервера.
+{$DOMAIN} {
+	# большие карты, видео и музыка
+	request_body {
+		max_size 512MB
+	}
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		-Server
+	}
+	# WebSocket (Socket.IO) проксируется автоматически
+	reverse_proxy app:3000
+}

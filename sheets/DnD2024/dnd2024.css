@@ -1,0 +1,1058 @@
+/* Лист D&D 2024 для Таверны. Рамки со срезанными углами, крупные модификаторы, чернила на бумаге. */
+@font-face { font-family: 'TvAlegreya'; font-weight: 400; font-display: swap; src: url('/fonts/sheet/alegreya-cyrillic-400.woff2') format('woff2'); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+@font-face { font-family: 'TvAlegreya'; font-weight: 700; font-display: swap; src: url('/fonts/sheet/alegreya-cyrillic-700.woff2') format('woff2'); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+@font-face { font-family: 'TvAlegreya'; font-weight: 400; font-display: swap; src: url('/fonts/sheet/alegreya-latin-400.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'TvAlegreya'; font-weight: 700; font-display: swap; src: url('/fonts/sheet/alegreya-latin-700.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'TvAlegreyaSans'; font-weight: 400; font-display: swap; src: url('/fonts/sheet/alegreya-sans-cyrillic-400.woff2') format('woff2'); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+@font-face { font-family: 'TvAlegreyaSans'; font-weight: 700; font-display: swap; src: url('/fonts/sheet/alegreya-sans-cyrillic-700.woff2') format('woff2'); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+@font-face { font-family: 'TvAlegreyaSans'; font-weight: 400; font-display: swap; src: url('/fonts/sheet/alegreya-sans-latin-400.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'TvAlegreyaSans'; font-weight: 700; font-display: swap; src: url('/fonts/sheet/alegreya-sans-latin-700.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+
+.sheet {
+  --paper: #fbfbf8;
+  --fill: #f1eee8;
+  --ink: #221d18;
+  --ink-2: #6b6258;
+  --line: #bdb5a8;
+  --red: #9b1c16;
+  --red-hi: #c0261c;
+  --cut: 9px;
+  --chamfer: polygon(var(--cut) 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, var(--cut) 100%, 0 calc(100% - var(--cut)), 0 var(--cut));
+  background: var(--paper);
+  color: var(--ink);
+  font: 400 14px/1.35 'TvAlegreyaSans', 'Segoe UI', Arial, sans-serif;
+  padding: 14px 16px 24px;
+  min-width: 320px;
+  box-sizing: border-box;
+  font-variant-numeric: lining-nums;
+}
+.sheet ::placeholder {
+  color: #a59d91;
+  font-style: italic;
+  opacity: 1;
+}
+/* кнопки повторяющихся списков */
+.sheet .repcontrol {
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+}
+.sheet .repcontrol .btn {
+  float: none;
+  padding: 3px 10px;
+  font-size: 12.5px;
+  font-weight: 700;
+  border: 1px solid var(--ink);
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: 0;
+  box-shadow: none;
+  height: auto;
+}
+.sheet .repcontrol .repcontrol_add {
+  order: -1;
+}
+.sheet .repcontrol .btn:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+.sheet *,
+.sheet *::before,
+.sheet *::after {
+  box-sizing: border-box;
+}
+.sheet input[type='text'],
+.sheet input[type='number'],
+.sheet select,
+.sheet textarea {
+  font: inherit;
+  color: var(--ink);
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  padding: 2px 2px;
+  height: auto;
+  width: 100%;
+  margin: 0;
+  box-shadow: none;
+}
+.sheet textarea {
+  border: 1px solid var(--line);
+  padding: 6px 8px;
+  resize: vertical;
+  min-height: 60px;
+  background: var(--paper);
+}
+.sheet input:focus,
+.sheet select:focus,
+.sheet textarea:focus {
+  outline: 2px solid color-mix(in srgb, var(--red) 55%, transparent);
+  outline-offset: 1px;
+}
+.sheet input[type='number'] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+.sheet input[type='number']::-webkit-inner-spin-button,
+.sheet input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.sheet button[type='roll']::before {
+  content: none;
+  display: none;
+}
+.sheet button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  text-align: left;
+  box-shadow: none;
+  text-shadow: none;
+  height: auto;
+  line-height: inherit;
+}
+
+/* подпись поля под ним — как в бумажном листе */
+.sheet .f {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 1px;
+  min-width: 0;
+}
+.sheet .f > span,
+.sheet .cap,
+.sheet .v > span:last-child,
+.sheet .pb-label {
+  font: 700 11px/1.2 'TvAlegreyaSans', Arial, sans-serif;
+  letter-spacing: 0.04em;
+  color: var(--ink-2);
+}
+.sheet .f.chk {
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+}
+.sheet .f.chk > span {
+  font-size: 12.5px;
+  color: var(--ink);
+  letter-spacing: 0;
+}
+.sheet h3 {
+  margin: 0 0 8px;
+  font: 700 17px/1.2 'TvAlegreya', Georgia, serif;
+  color: var(--red);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sheet h3::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+
+/* рамка со срезанными углами */
+.sheet .block,
+.sheet .ab,
+.sheet .v {
+  position: relative;
+  isolation: isolate;
+}
+.sheet .block::before,
+.sheet .ab::before,
+.sheet .v::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--line);
+  clip-path: var(--chamfer);
+  z-index: -2;
+}
+.sheet .block::after,
+.sheet .ab::after,
+.sheet .v::after {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  background: var(--fill);
+  clip-path: polygon(calc(var(--cut) - 0.4px) 0, calc(100% - var(--cut) + 0.4px) 0, 100% calc(var(--cut) - 0.4px), 100% calc(100% - var(--cut) + 0.4px), calc(100% - var(--cut) + 0.4px) 100%, calc(var(--cut) - 0.4px) 100%, 0 calc(100% - var(--cut) + 0.4px), 0 calc(var(--cut) - 0.4px));
+  z-index: -1;
+}
+.sheet .block {
+  padding: 12px 14px;
+  margin-bottom: 12px;
+}
+
+/* ---------- шапка ---------- */
+.sheet .head {
+  display: grid;
+  grid-template-columns: 2.2fr 1.2fr 1.2fr 0.55fr 1fr 1.2fr 0.7fr;
+  gap: 6px 14px;
+  align-items: end;
+  margin-bottom: 12px;
+}
+.sheet .head .name input {
+  font: 700 26px/1.1 'TvAlegreya', Georgia, serif;
+  border-bottom: 2px solid var(--ink);
+}
+.sheet .head .lvl input,
+.sheet .head .xp input {
+  font-weight: 700;
+}
+
+/* ---------- вкладки ---------- */
+.sheet .tab-state,
+.sheet .mode-state,
+.sheet .open-state,
+.sheet .effect-state,
+.sheet .prof-state {
+  display: none;
+}
+.sheet .tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  border-bottom: 2px solid var(--ink);
+  margin-bottom: 14px;
+}
+.sheet .tab {
+  padding: 6px 14px 5px;
+  font: 700 14.5px/1.2 'TvAlegreya', Georgia, serif;
+  color: var(--ink-2);
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+}
+.sheet .tab:hover {
+  color: var(--ink);
+}
+.sheet .tab-state[value='core'] ~ .tabs .t-core,
+.sheet .tab-state[value='spells'] ~ .tabs .t-spells,
+.sheet .tab-state[value='gear'] ~ .tabs .t-gear,
+.sheet .tab-state[value='features'] ~ .tabs .t-features,
+.sheet .tab-state[value='bio'] ~ .tabs .t-bio,
+.sheet .tab-state[value='settings'] ~ .tabs .t-settings {
+  color: var(--red);
+  border-bottom-color: var(--red);
+}
+.sheet .page {
+  display: none;
+}
+.sheet .tab-state[value='core'] ~ .page-core,
+.sheet .tab-state[value='spells'] ~ .page-spells,
+.sheet .tab-state[value='gear'] ~ .page-gear,
+.sheet .tab-state[value='features'] ~ .page-features,
+.sheet .tab-state[value='bio'] ~ .page-bio,
+.sheet .tab-state[value='settings'] ~ .page-settings {
+  display: block;
+}
+
+/* ---------- основная страница ---------- */
+.sheet .core {
+  display: grid;
+  grid-template-columns: minmax(250px, 300px) 1fr;
+  gap: 14px;
+  align-items: start;
+}
+.sheet .pb-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.sheet .pb-val {
+  font: 700 24px/1 'TvAlegreya', Georgia, serif;
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+}
+.sheet .ab {
+  padding: 8px 12px 8px;
+  margin-bottom: 8px;
+}
+.sheet .ab-top {
+  display: grid;
+  grid-template-columns: 1fr 46px 50px;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+.sheet .ab-roll {
+  font: 700 16px/1.1 'TvAlegreya', Georgia, serif;
+  color: var(--ink);
+}
+.sheet .ab-roll:hover,
+.sheet .sk button[type='roll']:hover,
+.sheet .atk-roll:hover,
+.sheet .sp-roll:hover,
+.sheet .ft-roll:hover,
+.sheet .v-roll:hover {
+  color: var(--red-hi);
+}
+.sheet .ab-score {
+  text-align: center;
+  font-weight: 700;
+  border: 1px solid var(--line) !important;
+  background: var(--paper) !important;
+  padding: 2px 0 !important;
+}
+.sheet .ab-mod {
+  font: 700 26px/1 'TvAlegreya', Georgia, serif;
+  text-align: center;
+}
+.sheet .sk {
+  display: grid;
+  grid-template-columns: 16px 1fr auto;
+  align-items: center;
+  gap: 7px;
+  padding: 1.5px 0;
+  font-size: 13.5px;
+}
+.sheet .sk .b {
+  font-weight: 700;
+  min-width: 26px;
+  text-align: right;
+}
+.sheet .sk.save {
+  border-bottom: 1px dashed var(--line);
+  padding-bottom: 4px;
+  margin-bottom: 2px;
+}
+.sheet .sk.save button {
+  font-weight: 700;
+}
+/* владение: кружок пустой, закрашенный, двойной (компетентность) */
+.sheet .pr,
+.sheet .sk input[type='checkbox'],
+.sheet .legend span[class^='lg-'] {
+  width: 13px;
+  height: 13px;
+  border: 1.5px solid var(--ink);
+  border-radius: 50%;
+  display: inline-block;
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+  padding: 0;
+  background: var(--paper);
+  cursor: pointer;
+}
+.sheet .sk input[type='checkbox'] {
+  border-radius: 2px;
+  transform: rotate(45deg) scale(0.85);
+}
+.sheet .sk input[type='checkbox']:checked,
+.sheet .prof-state[value='1'] + .pr,
+.sheet .legend .lg-1 {
+  background: var(--ink);
+}
+.sheet .prof-state[value='2'] + .pr,
+.sheet .legend .lg-2 {
+  background: var(--red);
+  border-color: var(--red);
+  box-shadow: 0 0 0 2px var(--paper), 0 0 0 3.5px var(--red);
+}
+.sheet .legend {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: var(--ink-2);
+  margin: 4px 2px 0;
+}
+.sheet .legend span[class^='lg-'] {
+  cursor: default;
+  margin-left: 6px;
+}
+
+/* показатели: КД, инициатива, скорость… */
+.sheet .vitals {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.sheet .v {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  justify-content: flex-end;
+  text-align: center;
+  padding: 8px 6px 7px;
+  min-height: 74px;
+  gap: 3px;
+}
+.sheet .v > span:last-child {
+  font-size: 10.5px;
+}
+.sheet .v-num,
+.sheet .v input[type='number'] {
+  font: 700 24px/1.1 'TvAlegreya', Georgia, serif;
+  text-align: center;
+  border: 0 !important;
+  background: none !important;
+}
+.sheet .v-roll {
+  text-align: center;
+}
+.sheet .v.ac {
+  --cut: 14px;
+}
+.sheet .v.ac input {
+  font-size: 28px;
+}
+.sheet .v.sz select {
+  appearance: none;
+  -webkit-appearance: none;
+  text-align: center;
+  text-align-last: center;
+  font-weight: 700;
+  font-size: 13px;
+  border: 0;
+  padding: 6px 0 2px;
+  cursor: pointer;
+}
+.sheet .v.insp {
+  cursor: pointer;
+}
+.sheet .v.insp input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  margin: 0;
+  cursor: pointer;
+  z-index: 2;
+}
+.sheet .insp-mark {
+  width: 26px;
+  height: 26px;
+  border: 2px solid var(--ink);
+  transform: rotate(45deg);
+  margin: 4px 0 3px;
+}
+.sheet .v.insp input:checked + .insp-mark {
+  background: var(--red);
+  border-color: var(--red);
+}
+
+/* хиты */
+.sheet .hp-main {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.sheet .hp-main label {
+  display: flex;
+  flex-direction: column-reverse;
+}
+.sheet .hp-main label > span {
+  font: 700 11px/1.2 'TvAlegreyaSans', Arial, sans-serif;
+  color: var(--ink-2);
+}
+.sheet .hp-cur input {
+  font: 700 34px/1 'TvAlegreya', Georgia, serif;
+  width: 92px;
+  color: var(--red);
+}
+.sheet .hp-max input,
+.sheet .hp-temp input {
+  font: 700 22px/1 'TvAlegreya', Georgia, serif;
+  width: 74px;
+}
+.sheet .hp-temp {
+  margin-left: auto;
+}
+.sheet .slash {
+  font: 400 24px/1 'TvAlegreya', Georgia, serif;
+  color: var(--ink-2);
+  padding-bottom: 14px;
+}
+.sheet .hd,
+.sheet .ds {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding: 4px 0;
+}
+.sheet .hd input {
+  width: 46px;
+  text-align: center;
+  font-weight: 700;
+}
+.sheet .hd select {
+  width: 62px;
+}
+.sheet .hd .slash {
+  font-size: 16px;
+  padding: 0;
+}
+.sheet .hd .cap,
+.sheet .ds .cap {
+  min-width: 140px;
+}
+.sheet .ds-k {
+  font-size: 12px;
+  color: var(--ink-2);
+  margin-left: 6px;
+}
+.sheet .pip {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 15px;
+  height: 15px;
+  border: 1.5px solid var(--ink);
+  border-radius: 50%;
+  margin: 0;
+  cursor: pointer;
+  background: var(--paper);
+}
+.sheet .pip:checked {
+  background: var(--ink);
+}
+.sheet .pip.fail:checked {
+  background: var(--red);
+  border-color: var(--red);
+}
+.sheet .btn {
+  padding: 5px 12px;
+  border: 1.5px solid var(--ink);
+  font-weight: 700;
+  background: var(--paper);
+  clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+}
+.sheet .btn:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+.sheet .btn.small {
+  padding: 2px 9px;
+  font-size: 12.5px;
+  margin-left: auto;
+}
+
+/* режим к20, истощение, состояния */
+.sheet .state {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.sheet .mode,
+.sheet .exh,
+.sheet .conds,
+.sheet .armor {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.sheet .mode .cap,
+.sheet .exh .cap,
+.sheet .conds .cap,
+.sheet .armor .cap {
+  min-width: 140px;
+}
+.sheet .seg {
+  padding: 3px 10px;
+  border: 1px solid var(--line);
+  font-size: 13px;
+  background: var(--paper);
+}
+.sheet .mode-state[value='normal'] ~ .page .m-normal,
+.sheet .mode-state[value='adv'] ~ .page .m-adv,
+.sheet .mode-state[value='dis'] ~ .page .m-dis {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+}
+.sheet .exh select {
+  width: 52px;
+  font-weight: 700;
+}
+.sheet .exh-note {
+  color: var(--red);
+  font-size: 12.5px;
+  font-weight: 700;
+}
+.sheet .cond {
+  position: relative;
+  display: inline-flex;
+  cursor: pointer;
+}
+.sheet .cond input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  margin: 0;
+  cursor: pointer;
+}
+.sheet .cond span {
+  padding: 2px 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 12.5px;
+  color: var(--ink-2);
+  background: var(--paper);
+}
+.sheet .cond input:checked + span {
+  background: var(--red);
+  border-color: var(--red);
+  color: #fff;
+}
+.sheet .cond input:focus-visible + span {
+  outline: 2px solid var(--red);
+  outline-offset: 1px;
+}
+
+/* оружие */
+.sheet .atk-head,
+.sheet .atk-line {
+  display: grid;
+  grid-template-columns: minmax(120px, 1.6fr) 60px minmax(90px, 1.2fr) minmax(90px, 1fr) 24px;
+  gap: 8px;
+  align-items: center;
+}
+.sheet .atk-head {
+  font: 700 11px/1.2 'TvAlegreyaSans', Arial, sans-serif;
+  color: var(--ink-2);
+  padding: 0 0 4px;
+  border-bottom: 1px solid var(--ink);
+}
+.sheet .atk {
+  border-bottom: 1px solid var(--line);
+}
+.sheet .atk-line {
+  padding: 6px 0;
+}
+.sheet .atk-roll,
+.sheet .sp-roll,
+.sheet .ft-roll {
+  font-weight: 700;
+  color: var(--ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.sheet .atk-roll::after,
+.sheet .sp-roll::after,
+.sheet .ft-roll::after {
+  content: ' ⚄';
+  color: var(--red);
+  font-weight: 400;
+}
+.sheet .atk-b {
+  font: 700 16px/1 'TvAlegreya', Georgia, serif;
+}
+.sheet .atk-m {
+  font-size: 12.5px;
+  color: var(--ink-2);
+}
+.sheet .more {
+  color: var(--ink-2);
+  text-align: center;
+  font-size: 14px;
+}
+.sheet .more:hover {
+  color: var(--red);
+}
+.sheet .atk-edit,
+.sheet .sp-edit,
+.sheet .ft-edit {
+  display: none;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 8px 12px;
+  padding: 6px 0 12px;
+}
+.sheet .open-state[value='1'] ~ .atk-edit,
+.sheet .open-state[value='1'] ~ .sp-edit,
+.sheet .open-state[value='1'] ~ .ft-edit {
+  display: grid;
+}
+.sheet .open-state[value='1'] ~ div .more {
+  color: var(--red);
+}
+.sheet .f.wide {
+  grid-column: 1 / -1;
+}
+.sheet .rests {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.sheet .rest-note,
+.sheet .hint {
+  font-size: 12px;
+  color: var(--ink-2);
+  margin: 6px 0 0;
+}
+
+/* ---------- заклинания ---------- */
+.sheet .casting {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  gap: 12px;
+  align-items: end;
+}
+.sheet .casting .v {
+  min-height: 64px;
+}
+.sheet .slot-grid {
+  display: grid;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+  gap: 6px;
+}
+.sheet .slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  border: 1px solid var(--line);
+  padding: 4px 2px;
+  background: var(--paper);
+}
+.sheet .slot b {
+  font: 700 15px/1 'TvAlegreya', Georgia, serif;
+  color: var(--red);
+  margin-right: 3px;
+}
+.sheet .slot input {
+  width: 26px;
+  text-align: center;
+  padding: 0;
+  border: 0;
+  font-weight: 700;
+}
+.sheet .spell {
+  border-bottom: 1px solid var(--line);
+}
+.sheet .sp-line {
+  display: grid;
+  grid-template-columns: 70px 18px minmax(120px, 1fr) auto 24px;
+  gap: 8px;
+  align-items: center;
+  padding: 5px 0;
+}
+.sheet .sp-lvl {
+  font-size: 12px;
+  color: var(--ink-2);
+  font-weight: 700;
+}
+.sheet .prep {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border: 1.5px solid var(--ink);
+  transform: rotate(45deg) scale(0.85);
+  margin: 0;
+  background: var(--paper);
+  cursor: pointer;
+}
+.sheet .prep:checked {
+  background: var(--red);
+  border-color: var(--red);
+}
+.sheet .sp-roll {
+  display: none;
+}
+.sheet .effect-state[value='none'] ~ .sp-line .r-none,
+.sheet .effect-state[value='attack'] ~ .sp-line .r-attack,
+.sheet .effect-state[value='save'] ~ .sp-line .r-save {
+  display: block;
+}
+.sheet .sp-flags {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--red);
+}
+
+/* ---------- снаряжение ---------- */
+.sheet .coins {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: flex-end;
+}
+.sheet .coin {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  width: 70px;
+}
+.sheet .coin input {
+  text-align: center;
+  font: 700 18px/1.1 'TvAlegreya', Georgia, serif;
+}
+.sheet .coin span {
+  font-weight: 700;
+  font-size: 11px;
+  color: var(--ink-2);
+}
+.sheet .coin.gp span {
+  color: #8a6512;
+}
+.sheet .carry {
+  margin-left: auto;
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+.sheet .carry b {
+  font: 700 18px/1 'TvAlegreya', Georgia, serif;
+}
+.sheet .carry .att {
+  margin-left: 14px;
+}
+.sheet .it-head,
+.sheet .it {
+  display: grid;
+  grid-template-columns: 34px minmax(120px, 2fr) 60px 60px 40px minmax(100px, 1.5fr);
+  gap: 8px;
+  align-items: center;
+}
+.sheet .it-head {
+  font: 700 11px/1.2 'TvAlegreyaSans', Arial, sans-serif;
+  color: var(--ink-2);
+  border-bottom: 1px solid var(--ink);
+  padding-bottom: 4px;
+}
+.sheet .it {
+  padding: 3px 0;
+  border-bottom: 1px solid var(--line);
+}
+.sheet .it input[type='checkbox'] {
+  justify-self: center;
+  width: 15px;
+  height: 15px;
+  accent-color: var(--red);
+}
+.sheet .it input[type='number'] {
+  text-align: center;
+}
+.sheet .profs {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ---------- особенности ---------- */
+.sheet .ft {
+  border-bottom: 1px solid var(--line);
+}
+.sheet .ft-line {
+  display: grid;
+  grid-template-columns: minmax(140px, 1fr) auto auto 24px;
+  gap: 10px;
+  align-items: center;
+  padding: 6px 0;
+}
+.sheet .ft-src {
+  font-size: 12px;
+  color: var(--ink-2);
+}
+.sheet .ft-uses {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.sheet .ft-uses input {
+  width: 34px;
+  text-align: center;
+  font-weight: 700;
+}
+
+/* ---------- о персонаже, настройки ---------- */
+.sheet .bio,
+.sheet .settings {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px 16px;
+}
+.sheet .settings .hint,
+.sheet .settings .credits {
+  grid-column: 1 / -1;
+}
+.sheet .credits {
+  font-size: 11.5px;
+  color: var(--ink-2);
+  border-top: 1px solid var(--line);
+  padding-top: 8px;
+  margin: 4px 0 0;
+}
+
+/* узкое окно */
+@media (max-width: 760px) {
+  .sheet .head {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  .sheet .head .name {
+    grid-column: 1 / -1;
+  }
+  .sheet .core {
+    grid-template-columns: 1fr;
+  }
+  .sheet .vitals {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .sheet .casting {
+    grid-template-columns: 1fr 1fr;
+  }
+  .sheet .slot-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+  .sheet .atk-head {
+    display: none;
+  }
+  .sheet .atk-line {
+    grid-template-columns: 1fr auto auto 24px;
+  }
+  .sheet .atk-line .atk-m {
+    display: none;
+  }
+  .sheet .it-head {
+    display: none;
+  }
+  .sheet .it {
+    grid-template-columns: 24px 1fr 46px 46px 24px;
+  }
+  .sheet .it input[name='attr_notes'] {
+    grid-column: 2 / -1;
+  }
+}
+
+/* ===================== шаблон броска ===================== */
+.sheet-rolltemplate-dnd2024 {
+  --ink: #221d18;
+  --ink-2: #6b6258;
+  --red: #9b1c16;
+}
+.sheet-rolltemplate-dnd2024 .sheet-card {
+  background: #fbfbf8;
+  color: var(--ink);
+  border: 1px solid #bdb5a8;
+  border-top: 3px solid var(--red);
+  padding: 6px 9px 7px;
+  font: 400 13.5px/1.35 'TvAlegreyaSans', 'Segoe UI', Arial, sans-serif;
+  font-variant-numeric: lining-nums;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%);
+}
+.sheet-rolltemplate-dnd2024 .sheet-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 8px;
+  margin-bottom: 4px;
+}
+.sheet-rolltemplate-dnd2024 .sheet-title {
+  font: 700 16.5px/1.15 'TvAlegreya', Georgia, serif;
+  color: var(--red);
+}
+.sheet-rolltemplate-dnd2024 .sheet-sub {
+  font-size: 12px;
+  color: var(--ink-2);
+}
+.sheet-rolltemplate-dnd2024 .sheet-mode {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 0 6px;
+  border-radius: 999px;
+  border: 1px solid currentColor;
+}
+.sheet-rolltemplate-dnd2024 .sheet-adv {
+  color: #2f6d33;
+}
+.sheet-rolltemplate-dnd2024 .sheet-dis {
+  color: var(--red);
+}
+.sheet-rolltemplate-dnd2024 .sheet-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  padding: 2px 0;
+  border-top: 1px dotted #cfc8bc;
+}
+.sheet-rolltemplate-dnd2024 .sheet-k {
+  font-size: 12px;
+  color: var(--ink-2);
+}
+.sheet-rolltemplate-dnd2024 .sheet-v {
+  font-weight: 700;
+  text-align: right;
+}
+.sheet-rolltemplate-dnd2024 .sheet-big .sheet-v {
+  font: 700 18px/1.1 'TvAlegreya', Georgia, serif;
+}
+.sheet-rolltemplate-dnd2024 .inlinerollresult {
+  background: none;
+  border: 0;
+  padding: 0 2px;
+  font-weight: 700;
+  color: var(--ink);
+  border-bottom: 2px solid #d8cfc0;
+}
+.sheet-rolltemplate-dnd2024 .inlinerollresult.fullcrit {
+  color: #2f6d33;
+  border-bottom-color: #2f6d33;
+}
+.sheet-rolltemplate-dnd2024 .inlinerollresult.fullfail {
+  color: var(--red);
+  border-bottom-color: var(--red);
+}
+.sheet-rolltemplate-dnd2024 .sheet-flag {
+  font-size: 12px;
+  font-weight: 700;
+  text-align: right;
+}
+.sheet-rolltemplate-dnd2024 .sheet-crit {
+  color: #2f6d33;
+}
+.sheet-rolltemplate-dnd2024 .sheet-fumble {
+  color: var(--red);
+}
+.sheet-rolltemplate-dnd2024 .sheet-critrow .sheet-k {
+  color: #2f6d33;
+  font-weight: 700;
+}
+.sheet-rolltemplate-dnd2024 .sheet-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 10px;
+  font-size: 12px;
+  color: var(--ink-2);
+  border-top: 1px dotted #cfc8bc;
+  padding-top: 3px;
+}
+.sheet-rolltemplate-dnd2024 .sheet-meta b {
+  color: var(--red);
+}
+.sheet-rolltemplate-dnd2024 .sheet-note,
+.sheet-rolltemplate-dnd2024 .sheet-desc {
+  font-size: 12.5px;
+  border-top: 1px dotted #cfc8bc;
+  padding-top: 3px;
+  margin-top: 2px;
+  white-space: pre-wrap;
+}
+.sheet-rolltemplate-dnd2024 .sheet-mastery {
+  color: #4a3a12;
+}
+.sheet-rolltemplate-dnd2024 .sheet-who {
+  font-size: 11px;
+  color: var(--ink-2);
+  text-align: right;
+  margin-top: 3px;
+}

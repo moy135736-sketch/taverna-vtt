@@ -1,0 +1,16 @@
+name: Идея
+description: Чего не хватает за столом
+labels: [enhancement]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: Что хочется
+      description: Опишите, как это выглядело бы в игре — кто нажимает, что видят мастер и игроки.
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Зачем
+      description: Какую задачу за столом это решает; как вы обходитесь без этого сейчас.

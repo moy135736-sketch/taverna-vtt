@@ -1,0 +1,2358 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro|Nunito|Source+Code+Pro&display=swap');
+
+/*----------------- COLOR VARIABLES ------------------*/
+:root {
+  --cpr-red-light: #FF2A35;
+  --cpr-red-standard: #CD272C;
+  --cpr-red-dark: #B32227;
+
+  --cpr-bg-main: #ffffff;
+  --cpr-bg-base: #ffffff;
+  --cpr-bg-subpanel: #2a2a2a;
+  --cpr-bg-tint: #f5f5f5;
+  --cpr-bg-red: var(--cpr-red-standard);
+  --cpr-bg-bright: #fae800;
+  --cpr-bg-input: #f5f5f5;
+  --cpr-bg-deathsave: #000000;
+  --cpr-text-deathsave: #ffffff;
+  --cpr-text-body: #333333;
+  --cpr-text-input: #555555;
+  --cpr-text-dark: #000000;
+  --cpr-text-on-bright: #0f0f0f;
+  --cpr-text-and-dark-panel: #0f0f0f;
+
+  --cpr-image-cyberware-diagram: url('https://raw.githubusercontent.com/Roll20/roll20-character-sheets/master/CyberpunkRED_raycw/images/cyberware-diagram.jpg');
+
+  /* Color options for red background on character sheet */
+  &:has(select[name="attr_red_color"] [value="standard-red"]:checked) {
+    --cpr-bg-red: var(--cpr-red-standard);
+  }
+
+  &:has(select[name="attr_red_color"] [value="light-red"]:checked) {
+    --cpr-bg-red: var(--cpr-red-light);
+  }
+
+  &:has(select[name="attr_red_color"] [value="dark-red"]:checked) {
+    --cpr-bg-red: var(--cpr-red-dark);
+  }
+}
+
+/* Roll20 Dynamic Dark Mode Theme Overrides */
+.sheet-darkmode :root,
+.sheet-darkmode {
+  --cpr-bg-main: #1f1f1f;
+  --cpr-bg-base: #121212;
+  --cpr-bg-subpanel: #222222;
+  --cpr-bg-tint: #1c1c1f;
+  --cpr-bg-bright: #fae800;
+  --cpr-bg-input: #27272c;
+  --cpr-bg-deathsave: #000000;
+  --cpr-text-deathsave: #ffffff;
+  --cpr-text-body: #E6E6E6;
+  --cpr-text-input: #E2E2E6;
+  --cpr-text-dark: #e0e0e0;
+  --cpr-text-on-bright: #0f0f0f;
+  --cpr-text-and-dark-panel: #f5f5f5; /* 080808; */
+
+  --cpr-image-cyberware-diagram: url('https://raw.githubusercontent.com/Roll20/roll20-character-sheets/master/CyberpunkRED_raycw/images/cyberware-diagram-darkmode.jpg');
+}
+
+.sheet-rolltemplate-interface,
+.sheet-rolltemplate-roleability,
+.sheet-rolltemplate-skill,
+.sheet-rolltemplate-damage,
+.sheet-rolltemplate-attack,
+.sheet-rolltemplate-deathsave,
+.sheet-rolltemplate-initiative {
+  --cpr-rt-bg: #0f0f0f;
+  --cpr-rt-border: #A7A8AA;
+  --cpr-rt-text: #ffffff;
+  --cpr-rt-check-bg: #0070C0;
+  --cpr-rt-check-crit-bg: #00B050;
+  --cpr-rt-check-critfail-bg: #CD272C;
+  --cpr-rt-deathsave-alive-text: #2ccd27;
+  --cpr-rt-deathsave-dead-text: #FF2A35;
+  --cpr-rt-initiative-bg: #ffffff;
+  --cpr-rt-initiative-text: #CD272C;
+  /*--cpr-rt-interface-bg: #fae800;*/
+  --cpr-rt-interface-text: #fae800;
+  --cpr-rt-roleability-bg: #696969;
+  --cpr-rt-table-bg: #ffffff;
+  --cpr-rt-table-text: #000000;
+  --cpr-rt-table-header-bg: #0f0f0f;
+  --cpr-rt-table-header-text: #ffffff;
+}
+
+.sheet-rolltemplate-interface.sheet-rolltemplate-darkmode,
+.sheet-rolltemplate-roleability.sheet-rolltemplate-darkmode,
+.sheet-rolltemplate-skill.sheet-rolltemplate-darkmode,
+.sheet-rolltemplate-damage.sheet-rolltemplate-darkmode,
+.sheet-rolltemplate-attack.sheet-rolltemplate-darkmode,
+.sheet-rolltemplate-deathsave.sheet-rolltemplate-darkmode,
+.sheet-rolltemplate-initiative.sheet-rolltemplate-darkmode {
+  --cpr-rt-bg: #0f0f0f;
+  --cpr-rt-border: #A7A8AA;
+  --cpr-rt-text: #e2e2e6;
+  --cpr-rt-check-bg: #005b9e;
+  --cpr-rt-check-crit-bg: #009443;
+  --cpr-rt-check-critfail-bg: #A61D22;
+  --cpr-rt-deathsave-alive-text: #2ccd27;
+  --cpr-rt-deathsave-dead-text: #FF2A35;
+  --cpr-rt-initiative-bg: #e2e2e6;
+  --cpr-rt-initiative-text: #FF2A35;
+  /*--cpr-rt-interface-bg: #fae800;*/
+  --cpr-rt-interface-text: #fae800;
+  --cpr-rt-roleability-bg: #696969;
+  --cpr-rt-table-bg: #0f0f0f;
+  --cpr-rt-table-text: #e2e2e6;
+  --cpr-rt-table-header-bg: #e2e2e6;
+  --cpr-rt-table-header-text: #0f0f0f;
+}
+
+/*----------------- ROLL TEMPLATES ------------------*/
+
+.sheet-rolltemplate-interface,
+.sheet-rolltemplate-roleability,
+.sheet-rolltemplate-skill,
+.sheet-rolltemplate-damage,
+.sheet-rolltemplate-attack,
+.sheet-rolltemplate-deathsave,
+.sheet-rolltemplate-initiative {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+}
+
+.sheet-rolltemplate-interface div.sheet-template-container,
+.sheet-rolltemplate-deathsave div.sheet-template-container,
+.sheet-rolltemplate-initiative div.sheet-template-container,
+.sheet-rolltemplate-roleability div.sheet-template-container,
+.sheet-rolltemplate-skill div.sheet-template-container,
+.sheet-rolltemplate-attack div.sheet-template-container,
+.sheet-rolltemplate-damage div.sheet-template-container {
+  border: none !important;
+  position: relative;
+  clip-path: 
+    polygon(
+      0% 30px,                 /* top left */
+      30px 0%,                 /* top left */
+      calc(100% - 30px) 0%,    /* top right */
+      100% 30px,               /* top right */
+      100% 100%,               /* bottom right */
+      0%   100%                /* bottom left */
+    );
+  margin: 0 auto 4px auto;
+  color: var(--cpr-rt-text);
+  width: 220px;
+  padding: 0;
+}
+
+.sheet-rolltemplate-interface div.sheet-template-container {
+  clip-path: 
+    polygon(
+      0% 30px,                 /* top left */
+      30px 0%,                 /* top left */
+      calc(100% - 30px) 0%,    /* top right */
+      100% 30px,               /* top right */
+      100% calc(100% - 30px),  /* bottom right */
+      calc(100% - 30px) 100%,  /* bottom right */
+      30px 100%,               /* bottom left */
+      0% calc(100% - 30px)      /* bottom left */
+    );
+  color: var(--cpr-rt-interface-text);
+
+}
+
+.sheet-rolltemplate-damage div.sheet-template-container {
+  background: var(--cpr-rt-bg);
+  color: var(--cpr-rt-text);
+  clip-path: 
+    polygon(
+      0% 0%,                   /* top left */
+      100% 0%,                 /* top right */
+      100% calc(100% - 30px),  /* bottom right */
+      calc(100% - 30px) 100%,  /* bottom right */
+      30px 100%,               /* bottom left */
+      0% calc(100% - 30px)     /* bottom left */
+    );
+}
+
+.sheet-rolltemplate-deathsave div.sheet-template-container,
+.sheet-rolltemplate-initiative div.sheet-template-container {
+  width: 200px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.sheet-rolltemplate-deathsave div.sheet-template-container {
+  background: var(--cpr-rt-bg);
+  color: var(--cpr-rt-text) !important;
+}
+
+.sheet-rolltemplate-initiative div.sheet-template-container {
+  background: var(--cpr-rt-initiative-bg);
+  color: var(--cpr-rt-initiative-text) !important;
+}
+
+.sheet-rolltemplate-skill div.sheet-template-container .sheet-template-header,
+.sheet-rolltemplate-attack div.sheet-template-container .sheet-template-header {
+  font-size: 4rem;
+}
+
+.sheet-rolltemplate-interface div.sheet-template-container .sheet-template-header,
+.sheet-rolltemplate-roleability div.sheet-template-container .sheet-template-header,
+.sheet-rolltemplate-initiative div.sheet-template-container .sheet-template-header,
+.sheet-rolltemplate-deathsave div.sheet-template-container .sheet-template-header {
+  font-size: 4rem;
+  height: 5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.sheet-rolltemplate-deathsave p {
+  font-size: 1.5rem;
+  font-weight: normal;
+  font-family: Nunito, sans-serif;;
+}
+
+.sheet-rolltemplate-deathsave div.sheet-template-container .sheet-template-row {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.sheet-rolltemplate-deathsave span.sheet-deathsave-alive {
+  color: var(--cpr-rt-deathsave-alive-text);
+  font-weight: bold;
+}
+
+.sheet-rolltemplate-deathsave span.sheet-deathsave-dead {
+  color: var(--cpr-rt-deathsave-dead-text);
+  font-weight: bold;
+}
+
+.sheet-rolltemplate-damage div.sheet-template-damage {
+  line-height: 3.3rem;
+  font-size: 2rem;
+  text-align: center;
+  padding: 10px;
+}
+
+.sheet-rolltemplate-interface .sheet-normal {
+  background: var(--cpr-rt-bg);
+}
+
+.sheet-rolltemplate-roleability .sheet-normal {
+  background: var(--cpr-rt-roleability-bg);
+}
+
+.sheet-rolltemplate-skill .sheet-normal,
+.sheet-rolltemplate-attack .sheet-normal {
+  background: var(--cpr-rt-check-bg);
+}
+
+.sheet-rolltemplate-interface .sheet-crit,
+.sheet-rolltemplate-roleability .sheet-crit,
+.sheet-rolltemplate-skill .sheet-crit,
+.sheet-rolltemplate-attack .sheet-crit{
+  background: var(--cpr-rt-check-crit-bg);
+}
+
+.sheet-rolltemplate-interface .sheet-fail,
+.sheet-rolltemplate-roleability .sheet-fail,
+.sheet-rolltemplate-skill .sheet-fail,
+.sheet-rolltemplate-attack .sheet-fail {
+  background: var(--cpr-rt-check-critfail-bg);
+}
+
+.sheet-rolltemplate-attack div.sheet-rolltemplate-table {
+  border: none !important;
+  position: relative;
+  width: 220px;
+  margin: 0 auto;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: repeat(9, 30px);
+  grid-auto-flow: column;
+  grid-gap: 4px;
+}
+
+.sheet-rolltemplate-attack div.sheet-rolltemplate-table div {
+  background: var(--cpr-rt-table-bg);
+  color: var(--cpr-rt-table-text);
+  padding-top: 0.7rem;
+}
+
+.sheet-rolltemplate-attack div.sheet-rolltemplate-table div.sheet-header {
+  background: var(--cpr-rt-table-header-bg);
+  color:var(--cpr-rt-table-header-text);
+}
+
+.sheet-rolltemplate-attack div.sheet-template-header {
+  padding-top: 1.7rem;
+  line-height: 3.3rem;
+  font-size: 3rem;
+}
+
+.sheet-rolltemplate-skill div.sheet-template-header {
+  padding-top: 1.7rem;
+  line-height: 3.3rem;
+  font-size: 3rem;
+}
+
+.sheet-rolltemplate-skill div.sheet-template-row {
+  padding-bottom: 1.7rem;
+}
+
+.sheet-rolltemplate-interface div.sheet-template-row-subhead,
+.sheet-rolltemplate-attack div.sheet-template-row-subhead {
+  font-size: 2rem;
+}
+
+.sheet-rolltemplate-attack div.sheet-template-row-subhead {
+  line-height: 2.5rem;
+}
+
+.sheet-rolltemplate-interface div.sheet-template-row,
+.sheet-rolltemplate-roleability .sheet-template-row,
+.sheet-rolltemplate-attack div.sheet-template-row {
+  padding-bottom: 1.7rem;
+}
+
+.sheet-rolltemplate-interface a[href^="~"] {
+  background-color: transparent;
+  padding: 0px;
+  border: 0px;
+  color: var(--cpr-rt-interface-text);
+}
+
+.sheet-rolltemplate-attack a[href^="~"] {
+  background-color: transparent;
+  padding: 0px;
+  border: 0px;
+}
+
+.sheet-rolltemplate-attack a:hover {
+  text-decoration: underline !important; }
+
+
+.sheet-rolltemplate-attack a:visited {
+  pointer-events: none;  }
+
+.sheet-rolltemplate-interface .sheet-template-header span,
+.sheet-rolltemplate-roleability .sheet-template-header span,
+.sheet-rolltemplate-skill .sheet-template-header span,
+.sheet-rolltemplate-attack .sheet-template-header span {
+  background-color: transparent;
+  border: 0px;
+  padding: 0px;
+}
+
+.sheet-rolltemplate-skill .inlinerollresult,
+.sheet-rolltemplate-skill .inlinerollresult.fullcrit,
+.sheet-rolltemplate-skill .inlinerollresult.fullfail,
+.sheet-rolltemplate-skill .inlinerollresult.importantroll,
+.sheet-rolltemplate-skill.sheet-rolltemplate-darkmode .inlinerollresult,
+.sheet-rolltemplate-attack .inlinerollresult,
+.sheet-rolltemplate-attack .inlinerollresult.fullcrit,
+.sheet-rolltemplate-attack .inlinerollresult.fullfail,
+.sheet-rolltemplate-attack .inlinerollresult.importantroll,
+.sheet-rolltemplate-attack.sheet-rolltemplate-darkmode .inlinerollresult,
+.sheet-rolltemplate-damage .inlinerollresult,
+.sheet-rolltemplate-damage .inlinerollresult.fullcrit,
+.sheet-rolltemplate-damage .inlinerollresult.fullfail,
+.sheet-rolltemplate-damage .inlinerollresult.importantroll,
+.sheet-rolltemplate-damage.sheet-rolltemplate-darkmode .inlinerollresult,
+.sheet-rolltemplate-deathsave .inlinerollresult,
+.sheet-rolltemplate-deathsave .inlinerollresult.fullcrit,
+.sheet-rolltemplate-deathsave .inlinerollresult.fullfail,
+.sheet-rolltemplate-deathsave .inlinerollresult.importantroll,
+.sheet-rolltemplate-deathsave.sheet-rolltemplate-darkmode .inlinerollresult,
+.sheet-rolltemplate-initiative .inlinerollresult,
+.sheet-rolltemplate-initiative .inlinerollresult.fullcrit,
+.sheet-rolltemplate-initiative .inlinerollresult.fullfail,
+.sheet-rolltemplate-initiative .inlinerollresult.importantroll,
+.sheet-rolltemplate-initiative.sheet-rolltemplate-darkmode .inlinerollresult,
+.sheet-rolltemplate-roleability .inlinerollresult,
+.sheet-rolltemplate-roleability .inlinerollresult.fullcrit,
+.sheet-rolltemplate-roleability .inlinerollresult.fullfail,
+.sheet-rolltemplate-roleability .inlinerollresult.importantroll,
+.sheet-rolltemplate-roleability.sheet-rolltemplate-darkmode .inlinerollresult,
+.sheet-rolltemplate-interface .inlinerollresult,
+.sheet-rolltemplate-interface .inlinerollresult.fullcrit,
+.sheet-rolltemplate-interface .inlinerollresult.fullfail,
+.sheet-rolltemplate-interface .inlinerollresult.importantroll,
+.sheet-rolltemplate-interface.sheet-rolltemplate-darkmode .inlinerollresult {
+    border: none;
+    background: none;
+}
+
+
+.sheet-rolltemplate-interface div,
+.sheet-rolltemplate-roleability div,
+.sheet-rolltemplate-skill div,
+.sheet-rolltemplate-attack div  {
+  padding: 5px;
+  text-align: center;
+}
+
+.sheet-rolltemplate-interface .sheet-template-crit,
+.sheet-rolltemplate-roleability .sheet-template-crit,
+.sheet-rolltemplate-skill .sheet-template-crit {
+  color: var(--cpr-rt-check-crit-bg) !important;
+}
+
+.sheet-rolltemplate-roleability .inlinerollresult,
+.sheet-rolltemplate-skill .inlinerollresult  {
+  display: inline-block;
+  min-width: 1.5em;
+  text-align: center;
+  border: 2px solid var(--cpr-rt-border);
+}
+
+/*----------------- CHARACTER SHEET ------------------*/
+
+.ui-dialog .tab-content .charsheet {
+
+  background-color: var(--cpr-bg-main);
+  color: var(--cpr-text-body);
+
+h2, h3, h4 {
+  background-color: var(--cpr-bg-main);
+  color: var(--cpr-text-body);
+}
+
+input, select, textarea, select option {
+  background-color: var(--cpr-bg-input);
+  color: var(--cpr-text-input);
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input:focus,
+textarea:focus,
+button:focus {
+  outline: none; 
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.sheet-character,
+.sheet-journal,
+.sheet-lifepath,
+.sheet-cyberware,
+.sheet-netrunning, 
+.sheet-point-tracker,
+.sheet-settings,
+.sheet-mook {
+  display: none;
+}
+
+.sheet-tabstoggle[value="character"] ~ div.sheet-character,
+.sheet-tabstoggle[value="lifepath"] ~ div.sheet-lifepath,
+.sheet-tabstoggle[value="cyberware"] ~ div.sheet-cyberware,
+.sheet-tabstoggle[value="netrunning"] ~ div.sheet-netrunning,
+.sheet-tabstoggle[value="journal"] ~ div.sheet-journal,
+.sheet-tabstoggle[value="settings"] ~ div.sheet-settings,
+.sheet-tabstoggle[value="mook"] ~ div.sheet-mook,
+.sheet-point-tracker-toggle[value="1"] ~ .sheet-profile div.sheet-point-tracker {
+  display: grid;
+}
+
+.sheet-nbiprogram,
+.sheet-blackice,
+.sheet-hardware {
+  display: none;
+}
+
+.sheet-nbiprogram button[type="roll"].sheet-txt-btn,
+.sheet-blackice button[type="roll"].sheet-txt-btn {
+  background: var(--cpr-text-on-bright);
+  color: var(--cpr-bg-bright);
+  border: 1px solid var(--cpr-bg-bright);
+  margin-left: 3px;
+  padding: 5px !important;
+  padding-top: 2px !important;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-shadow: none;
+  box-shadow: none;
+}
+
+.sheet-nbiprogram button[type="roll"].sheet-txt-btn:hover,
+.sheet-blackice button[type="roll"].sheet-txt-btn:hover {
+  background: var(--cpr-bg-bright);
+  color: var(--cpr-text-on-bright);
+  border: 1px solid var(--cpr-text-on-bright);
+  text-decoration: none;
+}
+
+.sheet-netruntoggle[value="nbi"] ~ div.sheet-nbiprogram,
+.sheet-netruntoggle[value="blackice"] ~ div.sheet-blackice,
+.sheet-netruntoggle[value="hardware"] ~ div.sheet-hardware {
+  display: block;
+  grid-area: 2 / 1 / 3 / 4;
+  position: relative;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+select {
+  border: none;
+  background: none;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  height: 2rem;
+}
+
+.sheet-main {
+  display: grid;
+  width: 1200px;
+  grid-template-rows: auto auto auto auto 80px;
+  grid-gap: 4px;
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+.sheet-character {
+  width: 1200px;
+  height: 1100px;
+  grid-gap: 4px;
+  grid-template-columns: 0.95fr 80px 1fr 1fr 1fr;
+  grid-template-rows: auto 300px;
+  grid-template-areas: "profile stats  skillA       skillB       skillC "
+                       "hp      hp     weaponarmor  weaponarmor  weaponarmor";
+}
+
+.sheet-lifepath {
+  width: 1200px;
+  height: 1100px;
+  grid-gap: 4px;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 2fr 2fr 2fr 2fr;
+  grid-template-areas: "progression inventory"
+                       "lp inventory" 
+                       "lp inventory" 
+                       "lp personal" 
+                       "lp rolespecific";
+}
+
+.sheet-settings {
+  width: 1200px;
+  grid-gap: 4px;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto;
+}
+
+.sheet-nav {
+  display: flex;
+  align-items: flex-end;
+}
+.sheet-nav div {
+  margin-right: 5px;
+}
+
+.sheet-main .sheet-nav div button {
+  background: var(--cpr-bg-red);
+  border: 1px solid var(--cpr-bg-main);
+  color: var(--cpr-bg-main);
+  font-size: 1.2rem;
+  margin: 0;
+  padding: 2px 8px;
+  height: 30px;
+  border-radius: 0;
+  text-shadow: none;
+}
+
+.sheet-main .sheet-nav div button.sheet-options {
+  background: var(--cpr-text-and-dark-panel);
+}
+
+.sheet-nav div button:hover {
+  background: none;
+  border: 1px solid var(--cpr-bg-red);
+  color: var(--cpr-bg-red);
+}
+
+.sheet-main .sheet-nav div button.sheet-options:hover {
+  color: var(--cpr-text-and-dark-panel);
+  background: none;
+  border: 1px solid var(--cpr-text-and-dark-panel);
+}
+
+.sheet-nav div button:active {
+  box-shadow: none;
+}
+
+.sheet-main .sheet-nav button[type=roll]:before {
+  content: "";
+}
+
+.sheet-point-tracker {
+  grid-template-columns: 1fr 1fr;
+}
+
+.sheet-point-tracker div {
+  border: solid 1px var(--cpr-bg-main);
+  text-align: center;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.sheet-small {
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.sheet-big {
+  font-size: 4rem;
+  font-weight: bold;
+}
+
+/*----------------- MOOK SHEET ------------------*/
+
+.sheet-mook {
+  width: 800px;
+  height: auto;
+  grid-gap: 4px;
+  grid-template-columns: 1fr;
+  grid-template-rows: 2fr 1fr auto auto auto auto;
+  grid-template-areas: "mookbasics"
+                       "mookhealth"
+                       "mookweapons"
+                       "mookskillstitlesection"
+                       "mookskills"
+                       "mookinventory";
+}
+
+.sheet-mook .sheet-bg-black-2,
+.sheet-mook .sheet-bg-yellow {
+  font-size: 1.2rem;
+  height: 23px;
+}
+
+.sheet-mookbasics {
+  grid-area: mookbasics;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-gap: 8px;
+}
+
+.sheet-mookbasics .sheet-mookstat {
+  background:var(--cpr-bg-main);
+  overflow: hidden;
+  clip-path: 
+    polygon(
+      0% 2rem,                 /* top left */
+      2rem 0%,                 /* top left */
+      100% 0%,               /* top right */
+      100% 100%,               /* bottom right */
+      0%   100%                    /* bottom left */
+    );
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sheet-mookbasics .sheet-mookstat .sheet-h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding-right: 4px;
+}
+
+.sheet-mookbasics .sheet-mookstat input {
+  border: none;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  font-size: 2.2rem;
+  width: 100%;
+  min-width: 0;
+}
+
+.sheet-mookhealth {
+  grid-area: mookhealth;
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr;
+  grid-template-rows: 1fr;
+  grid-gap: 8px;
+}
+
+.sheet-mookhealth .sheet-mookstat {
+  background:var(--cpr-bg-main);
+  overflow: hidden;
+  clip-path: 
+    polygon(
+      0% 2rem,                 /* top left */
+      2rem 0%,                 /* top left */
+      100% 0%,               /* top right */
+      100% 100%,               /* bottom right */
+      0%   100%                    /* bottom left */
+    );
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sheet-mookhealth .sheet-mookstat .sheet-h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding-right: 4px;
+}
+
+.sheet-mookhealth .sheet-mookstat input {
+  border: none;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  font-size: 2.2rem;
+  width: 100%;
+  min-width: 0;
+}
+
+.sheet-mookweapons {
+  grid-area: mookweapons;
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  grid-template-rows: 1fr 0.8fr auto;
+  grid-gap: 4px;
+  grid-template-areas: "weapontitle   armortitle"
+                       "weaponheader   armorheader"
+                       "weapondetails armor";
+}
+
+.sheet-mookweapons .sheet-mookweapontitle {
+  grid-area: weapontitle;
+  background:var(--cpr-bg-main);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sheet-mookweapons .sheet-mookweaponheader {
+  grid-area: weaponheader;
+}
+
+.sheet-mookweapons .sheet-weapondetails {
+  grid-area: weapondetails;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  grid-gap: 4px;
+}
+
+.sheet-mookweapons .sheet-weapondetails .sheet-bg-white {
+  background: var(--cpr-bg-main);
+  color: var(--cpr-text-and-dark-panel);
+  font-weight: bold;
+  margin-bottom: 4px;
+  padding: 2px 4px;
+}
+
+.sheet-mookweapons .sheet-h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  padding-right: 4px;
+}
+
+.sheet-mookweapons .sheet-mookarmortitle {
+  grid-area: armortitle;
+  background:var(--cpr-bg-main);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sheet-mookarmortitle {
+  width: 260px;
+}
+
+.sheet-mookweapons .sheet-mookarmorheader {
+  grid-area: armorheader;
+  margin-bottom: 0px;
+}
+
+.sheet-mookweaponheader .sheet-bg-black-2,
+.sheet-mookarmorheader .sheet-bg-black-2 {
+  margin-bottom: 0px;
+}
+
+.sheet-mookskills {
+  grid-area: mookskills;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto 1fr;
+  grid-gap: 4px;
+  background-color: var(--cpr-bg-main);
+  padding-bottom: 0px;
+  margin-bottom: -4px;
+}
+
+.sheet-mookskills .sheet-mookskillscolumn {
+  background: var(--cpr-bg-red);
+  padding: 4px 4px 0px;
+  margin-bottom: 0px;
+}
+
+.sheet-mookskillstitlesection .sheet-mookskillstitle {
+  background:var(--cpr-bg-main);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  grid-area: 1 / span 4;
+}
+
+.sheet-mookskills .sheet-flex-table .sheet-skill-name{
+  width: 60%;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.sheet-mookskills .sheet-flex-table .sheet-skill-subcategory{
+  width: 100%;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.sheet-mookskills-base{
+  width: 10%;
+}
+
+.sheet-mookskills-mod{
+  width: 12%;
+}
+
+.sheet-mookskills-total{
+  width: 14%;
+}
+
+.sheet-mookinventory {
+  grid-area: mookinventory;
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-gap: 8px;
+}
+
+.sheet-mookinventory .sheet-h2 {
+  background:var(--cpr-bg-main);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/*----------------- JOURNAL SHEET ------------------*/
+
+.sheet-journal {
+  width: 800px;
+  height: auto;
+  padding: 4px;
+  background: var(--cpr-bg-red);
+  grid-gap: 4px;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr auto;
+  grid-template-areas: "journaltitle"
+                       "journaltext";
+}
+
+.sheet-journaltitle {
+  grid-area: journaltitle;
+}
+
+.sheet-journaltext {
+  grid-area: journaltext;
+  width: 800px;
+}
+
+.sheet-journaltext textarea {
+  border: none;
+  max-width: 790px;
+}
+
+.sheet-journal h2 {
+  background-color: var(--cpr-bg-red);
+  color: var(--cpr-bg-main);
+  font-size: 2.2rem;
+  padding: 0px 4px;
+  width: 200px;
+}
+
+/*----------------- NETRUNNING SHEET ------------------*/
+
+.sheet-netrunning {
+  width: 1000px;
+  grid-gap: 4px;
+  grid-template-columns: 1fr 1fr 1.4fr 0.6fr;
+  grid-template-rows: auto auto auto auto;
+  font-family: 'Source Code Pro', monospace;
+}
+
+.sheet-largeinput input {
+  font-size: 2.7rem;
+}
+
+.sheet-biginput input {
+  font-size: 1.8rem;
+}
+
+.sheet-netrunning textarea {
+  width: 100%;
+  border: none;
+  
+  resize: none;
+  background: none;
+  color: var(--cpr-bg-main);
+}
+
+.sheet-netrunning input {
+  background: none;
+  border: none;
+  color: var(--cpr-bg-main);
+}
+
+.sheet-netrunning h1 , .sheet-netrunning h3 , .sheet-netrunning h6 {
+  background-color: var(--cpr-bg-red);
+  color: var(--cpr-bg-main);
+}
+
+.sheet-netrunning .sheet-interface {
+  display: grid;
+  grid-column: 1 / 3;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: auto auto;
+  grid-gap: 4px;
+  color: var(--cpr-bg-main);
+}
+
+.sheet-netrunning .sheet-interface div {
+  background: var(--cpr-bg-red);
+  padding: 4px;
+}
+
+.sheet-netrunning .sheet-interface button {
+  background: none;
+  border: none;
+  color: var(--cpr-bg-main);
+  text-shadow: none;
+  box-shadow: none;
+}
+
+.sheet-netrunning .sheet-interface .sheet-title {
+  grid-column: 1 / 6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sheet-netrunning .sheet-interface .sheet-rank {
+  text-align: center;
+}
+
+.sheet-netrunning .sheet-interface input {
+  text-align: center;
+  font-size: 2rem;
+  width: 2.5rem;
+  padding: 0;
+  margin: 0;
+  font-family: 'Source Code Pro', monospace;
+}
+
+.sheet-netrunning .sheet-interface .sheet-general input,
+.sheet-netrunning .sheet-interface .sheet-hardslots input,
+.sheet-netrunning .sheet-interface .sheet-program input {
+  text-align: center;
+  padding-bottom: 5px;
+  width: 6.5rem;
+}
+
+.sheet-netrunning .sheet-interface .sheet-netactions {
+  grid-column: 1 / 6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sheet-netrunning .sheet-interface .sheet-speed {
+  text-align: center;
+}
+
+.sheet-netrunning .sheet-interface .sheet-general {
+  grid-column: 1 / 3;
+  text-align: center;
+  font-size: 2rem;
+}
+
+.sheet-netrunning .sheet-interface .sheet-hardslots{
+  grid-column: 3 / 5;
+  text-align: center;
+  font-size: 2rem;
+}
+
+.sheet-netrunning .sheet-interface .sheet-program {
+  grid-column: 5 / 7;
+  text-align: center;
+  font-size: 2rem;
+}
+
+.sheet-netrunning .sheet-interface .sheet-netnav {
+  grid-column: 1 / 7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--cpr-bg-main);
+}
+
+.sheet-netrunning .sheet-interface .sheet-netnav div {
+  background: var(--cpr-bg-main);
+}
+
+
+.sheet-netrunning .sheet-abilities {
+  display: grid;
+  grid-column: 3 / 3;
+  /* grid-template-columns: repeat(6, 1fr); */
+  grid-template-rows: auto auto;
+  grid-gap: 4px;
+  color: var(--cpr-bg-main);
+}
+.sheet-netrunning .sheet-interface-abilities {
+  background-color: var(--cpr-bg-red);
+  padding: 4px;
+}
+
+.sheet-netrunning .sheet-abilities input {
+  color: var(--cpr-text-dark);
+}
+
+.sheet-netrunning select {
+  background: var(--cpr-text-on-bright);
+  color: var(--cpr-bg-bright);
+  padding-left: 4px;
+}
+
+.sheet-bg-yellow {
+  background: var(--cpr-bg-bright);
+  color: var(--cpr-text-on-bright);
+  font-weight: bold;
+  margin-bottom: 4px;
+  padding: 2px 4px;
+}
+
+.sheet-bg-black {
+  background: var(--cpr-text-on-bright);
+  color: var(--cpr-bg-bright);
+  font-weight: bold;
+  margin-bottom: 4px;
+  padding: 4px;
+}
+
+.sheet-bg-black-2 {
+  background: var(--cpr-text-and-dark-panel);
+  color: var(--cpr-bg-main);
+  font-weight: bold;
+  margin-bottom: 4px;
+  padding: 2px 4px;
+}
+
+.sheet-bg-red {
+  background: var(--cpr-bg-red);
+  color: var(--cpr-bg-main);
+  font-weight: bold;
+  margin-bottom: 4px;
+  padding: 4px;
+}
+
+.sheet-bg-white {
+  background: var(--cpr-bg-main);
+  color: var(--cpr-text-and-dark-panel);
+  font-weight: bold;
+  margin-bottom: 4px;
+  padding: 2px 4px;
+}
+
+.sheet-bg-black-item {
+  background: var(--cpr-text-and-dark-panel);
+  color: var(--cpr-bg-main);
+  margin-bottom: 4px;
+  padding: 4px;
+}
+
+.sheet-max-width{
+  width: 100%;
+}
+
+.sheet-anti-program-name{
+  width: 18%; 
+}
+
+.sheet-anti-program-class{
+  width: 26%;
+}
+
+.sheet-anti-program-atk,
+.sheet-anti-program-def,
+.sheet-anti-program-rez,
+.sheet-delete {
+  width: 4%;
+}
+
+.sheet-anti-program-run {
+  width: 6%;
+}
+
+.sheet-anti-program-effect{
+  width: 36%;
+}
+
+.sheet-program-name{
+  width: 18%; 
+}
+
+.sheet-program-class{
+  width: 26%;
+}
+
+.sheet-program-atk,
+.sheet-program-def,
+.sheet-program-rez,
+.sheet-delete {
+  width: 4%;
+}
+
+.sheet-program-effect{
+  width: 42%;
+}
+
+.sheet-bi-name{
+  width: 15%;
+  
+}
+
+.sheet-bi-class{
+  width: 17%;
+}
+
+.sheet-bi-per,
+.sheet-bi-spd,
+.sheet-bi-atk,
+.sheet-bi-def,
+.sheet-bi-rez {
+  width: 4%;
+  
+}
+
+.sheet-bi-run{
+  width: 6%
+}
+
+.sheet-bi-effect{
+  width: 39%;
+  
+}
+
+.sheet-hardware-name{
+  width: 20%;
+  
+}
+
+.sheet-hardware-data{
+  width: 79.5%;
+}
+
+/** flex table for skills **/
+
+.sheet-skills .sheet-flex-table{
+  font-size: 1.2rem;
+}
+
+.sheet-skills .sheet-flex-table div{
+  height: 24px;
+}
+
+.sheet-skills .sheet-flex-table .sheet-skill-name{
+  width: 60%;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.sheet-skills .sheet-flex-table .sheet-skill-subcategory{
+  width: 100%;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.sheet-skill-base{
+  width: 10%;
+}
+
+.sheet-skill-mod{
+  width: 12%;
+}
+
+.sheet-skill-total{
+  width: 14%;
+}
+
+/** flex table for armor **/
+
+.sheet-armor-piece {
+  width: 60%;
+}
+
+.sheet-armor-sp {
+  width: 20%;
+}
+
+
+.sheet-armor-penalty {
+  width: 18%;
+}
+
+.sheet-armor .sheet-bg-white {
+  height: 24px;
+}
+
+/* Customizing the repeating section for netrunning */
+
+.sheet-netrunning .repcontrol {
+  height: 28px;
+}
+
+.sheet-netrunning .repcontrol_add,
+.sheet-netrunning .repcontrol_edit,
+.sheet-netrunning .repcontrol_del,
+.sheet-netrunning .repcontrol_move {
+    display: block;
+    background: var(--cpr-bg-bright);
+    color: var(--cpr-text-on-bright);
+    border: 1px solid var(--cpr-text-on-bright);
+    box-shadow:none;
+    text-shadow: none;
+    font-weight: bold;
+}
+
+.sheet-netrunning .repcontrol_move {
+  margin-top: 4px;
+  margin-left: 4px;
+  width: 30px;
+}
+
+.sheet-netrunning .repcontrol_del {
+  position: relative;
+  top: 4px;
+  left: -4px;
+  z-index: 5;
+}
+
+.sheet-netrunning .repcontrol_add:hover,
+.sheet-netrunning .repcontrol_edit:hover,
+.sheet-netrunning .repcontrol_del:hover,
+.sheet-netrunning .repcontrol_move:hover {
+  background: var(--cpr-text-on-bright);
+  color: var(--cpr-bg-bright);
+  border: 1px solid var(--cpr-bg-bright);
+}
+
+[data-groupname=repeating_nbi] > button.btn.repcontrol_add::after,
+[data-groupname=repeating_anti] > button.btn.repcontrol_add::after,
+[data-groupname=repeating_blackice] > button.btn.repcontrol_add::after,
+[data-groupname=repeating_hardware] > button.btn.repcontrol_add::after {
+  content: "Install";
+  background-color:var(--cpr-bg-bright);
+  margin-left:-30px;
+}
+
+[data-groupname=repeating_nbi] > button.btn.repcontrol_add:hover::after,
+[data-groupname=repeating_anti] > button.btn.repcontrol_add:hover::after,
+[data-groupname=repeating_blackice] > button.btn.repcontrol_add:hover::after,
+[data-groupname=repeating_hardware] > button.btn.repcontrol_add:hover::after {
+  background-color:var(--cpr-text-on-bright);
+}
+
+/*----------------- CYBERWARE SHEET ------------------*/
+
+.sheet-cyberware{
+  width: 1200px;
+  height: auto;
+  grid-template-rows: auto auto;
+}
+
+.sheet-cyberware .sheet-diagram{
+  position: relative;
+  width: 1200px;
+  height: 1050px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: var(--cpr-image-cyberware-diagram);
+  background-position: -2px center;
+}
+
+.sheet-cyberware .sheet-cyberware-gear{
+  grid-gap: 30px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+.sheet-cyberware .sheet-cyberware-gear .sheet-cwtable{
+  grid-template-columns: 1fr 1fr;
+}
+
+.sheet-cyberware .sheet-cyberware-gear .sheet-cyberware-item{
+  grid-column: 1 / 2;
+}
+
+.sheet-cyberware .sheet-diagram .sheet-cyberaudio{
+  position: absolute;
+  left: 350px;
+  top: 47px;
+  width: 498px;
+ }
+
+.sheet-cyberware .sheet-cwtable {
+  display: grid;
+  grid-template-columns: 6fr auto 9fr;
+  grid-gap: 4px;
+  background: var(--cpr-bg-red);
+  padding: 4px;
+}
+
+/* Configure a container for the toggle */
+.sheet-cyberware .sheet-cwtable .sheet-cyberware-checkbox,
+.sheet-settings .sheet-my-settings .sheet-settings-checkbox {
+  display: inline-flex;
+  align-items: center;
+  padding: 0;
+}
+
+/* Configure the button styling. This example makes it look like a checkbox. */
+button.sheet-toggle, button.sheet-mooktoggle, button.sheet-settings-toggle {
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 24px;
+  color: var(--cpr-bg-red);
+  font-weight: bold;
+}
+
+.sheet-settings .sheet-settings-checkbox button.sheet-mooktoggle,
+.sheet-settings .sheet-settings-checkbox button.sheet-settings-toggle {
+  border: 1px solid var(--cpr-text-and-dark-panel);
+}
+
+input.sheet-mooktoggle:not([value="1"]) ~ button.sheet-mooktoggle > span.sheet-checked {
+  display: none;
+}
+
+input.sheet-mooktoggle:not([value="0"]) ~ div.sheet-character-mode,
+input.sheet-mooktoggle:not([value="1"]) ~ div.sheet-mook-mode {
+  display: none;
+}
+
+input.sheet-settings-toggle-show-initiative-modifier:not([value="1"]) ~ div.sheet-initiative-modifier {
+  display: none;
+}
+
+input.sheet-settings-toggle-show-aimed-shot-button:not([value="1"]) ~ button[name="roll_aimed_shot"] {
+  display: none;
+}
+
+input.sheet-settings-toggle:not([value="1"]) ~ button.sheet-settings-toggle > span.sheet-checked {
+  display: none;
+}
+.sheet-profile .sheet-initiative-modifier div {
+  margin-bottom: 0px;
+}
+
+/* Hide the "checked" section of the toggle if the attribute value is not "1". */
+input.sheet-toggle:not([value="1"]) ~ button.sheet-toggle > span.sheet-checked {
+  display: none;
+}
+
+
+.sheet-cyberware .sheet-cwtable div {
+  padding: 4px;
+  background: var(--cpr-bg-main);
+}
+
+.sheet-cyberware .sheet-cwtable input[type=text] {
+  padding: 0;
+  border: 0;
+  width:100%;
+}
+
+
+
+.sheet-cyberware .sheet-cwtable div.sheet-cyberware-header {
+  color: var(--cpr-bg-main);
+  background: var(--cpr-text-and-dark-panel);
+  font-weight: bold;
+ }
+
+.sheet-cyberware-item {
+  grid-column: 1 / span 2;
+ }
+
+ .sheet-cyberware .sheet-diagram .sheet-righteye{
+  position: absolute;
+  left: 0px;
+  top: 224px;
+  width: 396px;
+ }
+
+ .sheet-cyberware .sheet-diagram .sheet-lefteye{
+  position: absolute;
+  left: 802px;
+  top: 224px;
+  width: 396px;
+ }
+
+  .sheet-cyberware .sheet-diagram .sheet-rightarm{
+  position: absolute;
+  left: 43px;
+  top: 414px;
+  width: 398px;
+ }
+
+ .sheet-cyberware .sheet-diagram .sheet-leftarm{
+  position: absolute;
+  left: 762px;
+  top: 414px;
+  width: 398px;
+ }
+
+.sheet-cyberware .sheet-diagram .sheet-neurallink{
+  position: absolute;
+  left: 357px;
+  top: 657px;
+  width: 478px;
+ }
+
+ .sheet-cyberware .sheet-diagram .sheet-rightleg{
+  position: absolute;
+  left: 63px;
+  top: 879px;
+  width: 399px;
+ }
+
+ .sheet-cyberware .sheet-diagram .sheet-leftleg{
+  position: absolute;
+  left: 755px;
+  top: 879px;
+  width: 399px;
+ }
+ 
+/*----------------- LIFEPATH SHEET ------------------*/
+
+.sheet-progression {
+  grid-area: progression;
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-gap: 4px;
+}
+
+.sheet-progression div
+, .sheet-lp div
+, .sheet-personal div
+, .sheet-rolespecific div{
+  display: flex;
+  background: var(--cpr-bg-main);
+  padding: 4px;
+  flex-direction: column;
+}
+
+.sheet-progression .sheet-alias {
+  grid-area: 1 / 1 / 2 / 3 ;
+}
+
+.sheet-progression .sheet-improvement {
+  grid-area: 2 / 1 / 3 / 2 ;
+}
+
+.sheet-progression .sheet-reputation {
+  grid-area: 3 / 1 / 4 / 2 ;
+}
+
+.sheet-progression .sheet-repevents {
+  grid-area: 2 / 2 / 4 / 3 ;
+}
+
+.sheet-progression .sheet-notes {
+  grid-area: 2 / 2 / 4 / 3 ;
+}
+
+.sheet-inventory {
+  grid-area: inventory;
+  display: block;
+  overflow: auto;
+}
+
+.sheet-gear-name{
+  width: 35%;  
+}
+
+.sheet-gear-notes{
+  width: 64%;  
+}
+.sheet-gear-name input, .sheet-gear-notes input {
+  width: 100%;
+}
+
+.sheet-rolespecific {
+  grid-area: rolespecific;
+  padding: 4px;
+}
+
+.sheet-rolespecific .sheet-rolespecificdetails {
+  background: var(--cpr-bg-main);
+  padding: 4px;
+  height: 100%;
+}
+
+.sheet-personal {
+  grid-area: personal;
+  display: grid;
+  grid-template-columns: 4fr 2fr 3fr;
+  grid-template-rows: 2fr 1fr;
+  grid-gap: 4px;
+}
+
+.sheet-personal .sheet-fashion {
+  grid-area: 1 / 1 / 2 / 4;
+}
+
+.sheet-personal .sheet-housing {
+  grid-area: 2 / 1 / 3 / 2;
+}
+
+.sheet-personal .sheet-rent {
+  grid-area: 2 / 2 / 3 / 3;
+}
+
+.sheet-personal .sheet-lifestyle {
+  grid-area: 2 / 3 / 3 / 4;
+}
+
+.sheet-lp {
+  grid-area: lp;
+  display: grid;
+  grid-template-rows: auto auto auto auto auto auto 1fr 2fr ;
+  grid-template-columns: 1fr 1fr;
+  grid-gap:4px;
+}
+
+
+.sheet-lp .sheet-enemies{
+  grid-column: 1 / 3;
+  display: grid;
+  grid-template-columns:auto auto auto auto; 
+  grid-template-rows:auto auto 1fr 1fr 1fr;
+  grid-gap: 4px;
+}
+
+.sheet-lp .sheet-enemies div{
+  background: var(--cpr-bg-red);
+}
+
+.sheet-lp .sheet-enemies .sheet-title{
+  grid-column: 1 / 5;
+}
+
+.sheet-lp .sheet-enemies h3, .sheet-lp .sheet-enemies h4{
+  text-align: center;
+  color: var(--cpr-bg-main);
+  background-color: var(--cpr-bg-red);
+}
+
+.sheet-lp .sheet-enemies .sheet-item{
+  border: solid 1px var(--cpr-bg-red);
+  background: none;
+  border-radius: 5px;
+}
+
+
+
+.sheet-lifepath input, 
+.sheet-lifepath textarea,
+.sheet-profile input,
+.sheet-profile textarea {
+  width: 100%;
+  border: none;
+  height: 100%;
+  resize: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sheet-mookinventory textarea {
+  width: 100%;
+  border: none;
+  height: 200px;
+  margin: 0px;
+  margin-top: -4px;
+  padding: 0;
+}
+
+
+
+/*----------------- GENERAL CSS ------------------*/
+
+.sheet-section {
+    padding: 4px;
+    background-color: var(--cpr-bg-red);
+}
+
+.sheet-statbox {
+  background:var(--cpr-bg-main);
+  overflow: hidden;
+  clip-path: 
+    polygon(
+      0% 2rem,                 /* top left */
+      2rem 0%,                 /* top left */
+      100% 0%,               /* top right */
+      100% 100%,               /* bottom right */
+      0%   100%                    /* bottom left */
+    );
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sheet-stats .sheet-statbox .sheet-h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  padding-right: 4px;
+}
+
+.sheet-statbox div {
+  text-align: right;
+  padding: 4px;
+}
+
+.sheet-h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  padding-right: 31px;
+}
+
+.sheet-statbox div.sheet-outof {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
+.sheet-statbox div.sheet-outof div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.sheet-flex-table .sheet-basic button {
+  font-weight: 700;
+}
+
+.sheet-main .sheet-stats .sheet-statbox input {
+  border: none;
+  text-align:right;
+  padding: 0;
+  margin: 0;
+  font-size: 2.2rem;
+  width: 100%;
+  min-width: 0;
+}
+
+.sheet-main .sheet-stats .sheet-statbox .sheet-outof input {
+  text-align: center;
+}
+
+.sheet-skills input[type=number]:disabled {
+  background: none;
+}
+
+.sheet-hp textarea {
+  width:96%;
+  height:90px;
+  resize: none;
+  border: none;
+}
+
+/*------------- Section-specific CSS -------------*/
+
+.sheet-profile {
+  grid-area: profile;
+  display: grid;
+  grid-gap: 4px;  
+}
+
+.sheet-point-tracker-toggle[value="0"] ~ .sheet-profile {
+  /* grid-template-rows: 0.75fr 0.5fr 0.75fr 2.5fr 1.75fr 0.75fr 0.75fr; */
+  grid-template-rows: 0.45fr 0.35fr 0.35fr 2.5fr 0.5fr 0.5fr;
+}
+
+.sheet-point-tracker-toggle[value="1"] ~ .sheet-profile {
+  /* grid-template-rows: 0.5fr 0.6fr 0.5fr 0.5fr 2.5fr 1.6fr 0.5fr 0.5fr; */
+  grid-template-rows: 0.5fr 0.35fr 0.3fr 0.3fr 2.5fr 0.45fr 0.45fr;
+}
+
+
+.sheet-profile div.sheet-prof-info {
+  background:var(--cpr-bg-main);
+  overflow: hidden;
+  display: flex;
+  background: var(--cpr-bg-main);
+  padding: 4px;
+  flex-direction: column;
+}
+
+.sheet-profile .sheet-flex-table .sheet-skill-name{
+  width: 85%;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.sheet-skill-rank{
+  width: 13%;
+}
+
+
+.sheet-profile .sheet-hp-humanity{
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+}
+
+.sheet-profile .sheet-hp-humanity input{
+  font-size: 4rem;
+  background: none;
+  text-align: center;
+  width: 6rem;
+  height: 5rem;
+}
+
+.sheet-profile .sheet-hp-humanity div{
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.sheet-profile .sheet-hp-humanity div:first-child{
+  justify-content: flex-start;
+}
+
+.sheet-profile .sheet-role-ability-panel {
+  height: 501px;
+}
+
+.sheet-red-bg, .sheet-red-bg input, .sheet-red-bg h3 {
+  background: none;
+  color:var(--cpr-bg-main);
+}
+
+.sheet-white-bg, .sheet-white-bg input {
+  background: var(--cpr-bg-main);
+}
+
+
+.sheet-stats {
+  grid-area: stats;
+  display: grid;
+  grid-gap: 8px;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(10, 1fr);
+}
+
+.sheet-skillA {
+  grid-area: skillA;
+}
+
+.sheet-skillB {
+  grid-area: skillB;
+}
+
+.sheet-skillC {
+  grid-area: skillC;
+}
+
+.sheet-hp {
+  grid-area: hp;
+  display: grid;
+  grid-template-rows: 1fr 2fr;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 4px;
+  grid-template-areas:"deathsave deathsave"
+                      "injuries addictions";
+}
+
+.sheet-hp .sheet-health{
+  grid-area: health;
+  padding: 10px;
+  clip-path: 
+    polygon(
+      0% 2rem,                 /* top left */
+      2rem 0%,                 /* top left */
+      100% 0%,               /* top right */
+      100% 100%,               /* bottom right */
+      0%   100%                    /* bottom left */
+    );
+  text-align: right;
+}
+
+.sheet-hp .sheet-injuries{
+  grid-area: injuries;
+  padding: 10px;
+}
+
+.sheet-hp .sheet-addictions {
+  grid-area: addictions;
+  padding: 10px;
+}
+
+.sheet-hp .sheet-deathsave {
+  grid-area: deathsave;
+  background: none;
+  color: var(--cpr-text-deathsave);
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  font-size:1.4rem;
+  grid-gap: 4px;
+}
+
+.sheet-hp .sheet-deathsave div {
+  background: var(--cpr-bg-subpanel);
+  color: var(--cpr-text-deathsave);
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.sheet-clipleft {
+  clip-path: 
+    polygon(
+      0% 30px,                 /* top left */
+      30px 0%,                 /* top left */
+      100% 0%,
+      100% 100%,               /* bottom right */
+      0%   100%                    /* bottom left */
+    );  
+}
+
+.sheet-clipright {
+  clip-path: 
+    polygon(
+      0% 0%,                /* top left */
+      calc(100% - 30px) 0%,
+      100% 30px,
+      100% 100%,               /* bottom right */
+      0%   100%                    /* bottom left */
+    );  
+}
+
+.sheet-deathsave div.sheet-darker {
+  background: var(--cpr-bg-deathsave);
+}
+
+.sheet-hp .sheet-deathsave input {
+  font-size: 4.6rem;
+  background: none;
+  color: var(--cpr-text-deathsave);
+  text-align: center;
+  width: 8rem;
+  border: none;
+}
+
+.sheet-hp .sheet-deathsave button {
+  color: var(--cpr-text-deathsave);
+}
+
+.sheet-hp .sheet-health,
+.sheet-hp .sheet-injuries,
+.sheet-hp .sheet-addictions {
+  background: var(--cpr-bg-main);
+}
+
+
+
+.sheet-weaponarmor {
+  grid-area: weaponarmor;
+  display: grid;
+  grid-gap: 4px;
+  grid-template-columns: 2fr 3fr;
+  grid-template-rows: auto auto;
+}
+
+.sheet-weaponarmor .sheet-armor{
+  grid-area: 2 / 1 / 3 / 2;
+}
+
+.sheet-weaponarmor .sheet-title{
+  grid-area: 1 / 1 / 2 / 2;
+  text-align: center;
+  font-size: 3rem;
+  color:var(--cpr-bg-main);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
+
+.sheet-weaponarmor .sheet-weapon{
+  grid-area: 1 / 2 / 4 / 3;
+}
+
+.sheet-weapon-name{
+  width: 35%;
+}
+
+.sheet-weapon-type{
+  width: 23%;
+}
+
+.sheet-dmg{
+  width: 12%;
+  text-align:center;
+}
+
+.sheet-ammo{
+  width: 12%;
+  text-align:center;
+}
+
+.sheet-rof{
+  width: 6%;
+  text-align:center;
+}
+
+.sheet-bonus{
+  width: 8%;
+  text-align:center;
+}
+
+.sheet-weapondetails .repcontrol {
+  margin-top: -4px;
+}
+
+.sheet-inventory .repcontrol_add,
+.sheet-inventory .repcontrol_edit,
+.sheet-inventory .repcontrol_del,
+.sheet-inventory .repcontrol_move,
+.sheet-weapon .repcontrol_add,
+.sheet-weapon .repcontrol_edit,
+.sheet-weapon .repcontrol_del,
+.sheet-weapon .repcontrol_move,
+.sheet-weapondetails .repcontrol_add,
+.sheet-weapondetails .repcontrol_edit,
+.sheet-weapondetails .repcontrol_del,
+.sheet-weapondetails .repcontrol_move {
+  display: block;
+  background: var(--cpr-bg-red);
+  color: var(--cpr-bg-main);
+  border: 1px solid var(--cpr-bg-main);
+  font-weight: bold;
+  box-shadow: none;
+  text-shadow: none;
+  padding: 2px 8px 2px;
+}
+
+.sheet-inventory .repcontrol_move,
+.sheet-weapon .repcontrol_move,
+.sheet-weapondetails .repcontrol_move {
+  width: 28px;
+}
+
+.sheet-inventory .repcontrol_add:hover,
+.sheet-inventory .repcontrol_edit:hover,
+.sheet-inventory .repcontrol_del:hover,
+.sheet-inventory .repcontrol_move:hover,
+.sheet-weapon .repcontrol_add:hover,
+.sheet-weapon .repcontrol_edit:hover,
+.sheet-weapon .repcontrol_del:hover,
+.sheet-weapon .repcontrol_move:hover,
+.sheet-weapondetails .repcontrol_add:hover,
+.sheet-weapondetails .repcontrol_edit:hover,
+.sheet-weapondetails .repcontrol_del:hover,
+.sheet-weapondetails .repcontrol_move:hover {
+  background: var(--cpr-bg-main);
+  color: var(--cpr-bg-red);
+}
+
+/*----------------- BUTTONS ------------------*/
+
+button[type="roll"].sheet-txt-btn:before{
+  content: ' ';
+}
+
+button[type="roll"].sheet-txt-btn{
+  background: none;
+  border: none;
+  margin-left: 0px;
+  padding: 0 !important;
+  font-size: 1.2rem;
+  color: var(--cpr-text-dark);
+  text-shadow: none;
+  box-shadow: none;
+}
+
+button[type="roll"].sheet-aimed-shot-icon{
+  font-weight: bold;
+  color: var(--cpr-bg-red);
+  font-size: 1.5rem;
+  margin-top: -3px;
+}
+
+.sheet-small button[type="roll"].sheet-txt-btn{
+  font-size: 1.3rem;
+  color: var(--cpr-bg-main);
+  font-weight:bold;
+}
+
+.sheet-hp .sheet-deathsave button[type="roll"].sheet-txt-btn {
+  color: var(--cpr-text-deathsave);
+}
+
+button[type="roll"].sheet-txt-btn:hover{
+ background: none;
+ text-decoration: underline;
+}
+
+button[type="roll"].sheet-txt-btn:active{
+ background: none;
+ border: none;
+ box-shadow: none;
+}
+
+td.sheet-subskill-header:first-child{
+  font-weight: bold;
+}
+
+td.sheet-subskill-header {
+  background: var(--cpr-bg-bright);
+}
+
+/* Auto-expanding textarea */
+
+.sheet-auto-expand {
+  position: relative;
+  cursor: text;
+  word-wrap: break-word;
+  min-height: 5em;
+}
+.sheet-auto-expand span {
+  visibility: hidden;
+  white-space: pre-wrap;
+  display: block;
+  height: auto;
+}
+.sheet-auto-expand textarea {
+  border: 1px solid var(--cpr-bg-main);
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  margin: 0;
+  resize: none;
+  height: 100%;
+  width: 100%;
+  display: block;
+  
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  padding: inherit;
+  text-align: inherit;
+  text-transform: inherit;
+}
+
+/* Flex Table Repeating Sections */
+
+.sheet-flex-table {
+  display: flex;
+  justify-content: space-between;
+  flex-flow: row wrap;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.sheet-flex-table div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.sheet-main .sheet-flex-table div input,
+.sheet-settings .sheet-settings-value input {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  border: none;
+  height: auto;
+  min-width:0
+}
+
+.sheet-main .sheet-flex-table div input[type=number],
+.sheet-settings .sheet-settings-value input[type=number] {
+  text-align: center;
+}
+
+.sheet-main .sheet-flex-table div input:read-only[type=number]{
+  background-color: var(--cpr-bg-main);
+}
+
+.sheet-netrunning .sheet-flex-table input{
+  text-align: left;
+}
+
+.sheet-my-settings {
+  display: flex;
+  flex-direction: row; /* Aligns columns horizontally */
+  width: 800px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.sheet-settings-column {
+  flex: 0 0 350px;
+  width: 350px;
+  box-sizing: border-box;
+}
+
+.sheet-settings-row {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.sheet-settings-option {
+  display: flex;
+  width: 300px;
+  border: 1px solid var(--cpr-text-and-dark-panel);
+  margin: 4px;
+  padding: 4px;
+  align-items: center;
+  justify-content: center;
+}
+
+.sheet-settings-help {
+  max-width: 310px;
+  text-align: justify;
+}
+
+.sheet-settings-title {
+  flex: 1 1 auto;
+}
+
+.sheet-settings-value {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sheet-aimed-shot-icon {
+  font-weight: bold;
+  color: var(--cpr-bg-red);
+  font-size: 1.5rem;
+}
+
+.sheet-settings-number,
+.sheet-settings-select {
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--cpr-text-and-dark-panel);
+  background-color: var(--cpr-bg-input);
+}
+
+.sheet-settings-select {
+  padding-left: 4px;
+  width: auto;
+}
+
+.sheet-settings-checkbox {
+  background-color: var(--cpr-bg-input);
+}
+
+.sheet-weapon {
+  background-color: var(--cpr-bg-red);
+  margin: -4px;
+  padding: 4px;
+}
+
+.sheet-settings .sheet-nav {
+  align-items: flex-start;
+}
+
+.sheet-settings .sheet-reset-check {
+  display: none;
+}
+
+.sheet-settings .sheet-reset-skills[value="confirm"] ~ div.sheet-reset-button {
+  display: none;
+}
+
+.sheet-settings .sheet-reset-skills[value="confirm"] ~ div.sheet-reset-check {
+  display: grid;
+}
+
+.sheet-settings .sheet-reset-check .sheet-heading {
+  color: var(--cpr-text-and-dark-panel);
+  background: var(--cpr-bg-main);
+  border: 1px solid var(--cpr-text-and-dark-panel);
+  font-size: 1.2rem;
+  margin: 0;
+  padding: 5px 8px;
+  height: 30px;
+  line-height: 18px;
+  border-radius: 0;
+}
+.sheet-settings .sheet-reset-check .sheet-question,
+.sheet-settings .sheet-reset-check .sheet-buttons {
+  width: 100%;
+  text-align: center;
+  background-color: var(--cpr-bg-tint);
+  padding-bottom: 5px;
+}
+.sheet-settings .sheet-reset-check .sheet-question {
+  padding-top: 5px;
+}
+
+.sheet-profile .sheet-take-damage-panel {
+  display: none;
+  height: 501px;
+  align-items: end;
+}
+.sheet-profile .sheet-take-damage-panel-toggle[value="1"] ~ div.sheet-role-ability-panel {
+  display: none;
+}
+.sheet-profile .sheet-take-damage-panel-toggle[value="1"] ~ div.sheet-take-damage-panel {
+  display: grid;
+}
+.sheet-profile .sheet-take-damage-flow {
+  display: flex;
+  flex-direction: column;
+}
+.sheet-take-damage-panel .sheet-flex-table div {
+  justify-content: flex-start;
+}
+.sheet-take-damage-panel .sheet-take-damage-title {
+  text-align: center;
+}
+.sheet-take-damage-panel .sheet-take-damage-field {
+  font-weight: normal;
+  width: 120px;
+}
+.sheet-take-damage-panel .sheet-take-damage-preview-label {
+  width: 120px;
+}
+.sheet-take-damage-panel .sheet-take-damage-input,
+.sheet-take-damage-panel .sheet-take-damage-preview {
+  width: 134px;
+}
+.sheet-take-damage-panel .sheet-take-damage-preview input {
+  background: var(--cpr-bg-bright);
+  color: var(--cpr-text-on-bright);
+  font-weight: bold;
+  width: 100%;
+  text-align: center;
+}
+.sheet-take-damage-panel .sheet-take-damage-input select {
+  width: 100%;
+  background: var(--cpr-bg-input);
+}
+.sheet-profile .sheet-take-damage-panel input[type="checkbox"],
+.sheet-profile .sheet-take-damage-panel input[type="radio"] {
+  height: auto;
+  width: auto;
+  margin: 4px;
+}
+.sheet-take-damage-panel .sheet-take-damage-main-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.sheet-take-damage-panel .sheet-take-damage-main-buttons button {
+  width: 83px;
+  background: var(--cpr-bg-main);
+  color: var(--cpr-bg-red);
+  border: 1px solid var(--cpr-bg-main);
+  font-weight: bold;
+  box-shadow: none;
+  text-shadow: none;
+  padding: 2px 8px 2px;
+  border-radius: 4px;
+}
+.sheet-take-damage-panel .sheet-take-damage-main-buttons button:hover {
+  background: var(--cpr-bg-red);
+  color: var(--cpr-bg-main);
+}
+.sheet-take-damage-panel .sheet-take-damage-main-buttons .sheet-button-left {
+  margin-right: 4px;
+}
+.sheet-take-damage-button button {
+  background: var(--cpr-text-on-bright);
+  color: var(--cpr-bg-bright);
+  border: 1px solid var(--cpr-bg-bright);
+  font-weight: bold;
+  box-shadow: none;
+  text-shadow: none;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+.sheet-take-damage-button button:hover {
+  background: var(--cpr-bg-bright);
+  color: var(--cpr-text-on-bright);
+}
+.sheet-take-damage-button-flag[value="0"] ~ div.sheet-take-damage-button {
+  display: none;
+}
+
+/* Close .ui-dialog .tab-content .charsheet { */
+}
